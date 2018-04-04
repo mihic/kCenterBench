@@ -31,6 +31,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -87,9 +88,14 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,9 +154,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="cxxopts.hpp" />
+    <ClInclude Include="Graph.hpp" />
+    <ClInclude Include="kCenterBench.hpp" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="util.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="algorithms\Bruteforce.cpp" />
+    <ClCompile Include="algorithms\Gonazalez.cpp" />
+    <ClCompile Include="algorithms\Greedy.cpp" />
+    <ClCompile Include="algorithms\HochbaumShmoys.cpp" />
+    <ClCompile Include="algorithms\Plesnik.cpp" />
+    <ClCompile Include="Graph.cpp" />
     <ClCompile Include="kCenterBench.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
