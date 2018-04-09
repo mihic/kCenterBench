@@ -12,7 +12,23 @@
     },
     {
       "Id": "b3ca51ea-0940-4a0c-9af5-a4bb1969f17a",
-      "Command": ""
+      "Command": "-i samples/pmed/pmed1.txt"
+    },
+    {
+      "Id": "e3f1a8e7-10ac-419d-9c36-494458722a9a",
+      "Command": "-m gonzalez1c"
+    },
+    {
+      "Id": "df053be2-03fe-4f90-a10d-ca88835b336d",
+      "Command": "-m greedy"
+    },
+    {
+      "Id": "b5dcd509-1a4e-4eee-9e65-03fc12eceea6",
+      "Command": "-m plesnikdeg"
+    },
+    {
+      "Id": "878e2173-0bb2-4c9a-bcde-885c3b47b364",
+      "Command": "-m hochbaumshmoys"
     }
   ]
 }
