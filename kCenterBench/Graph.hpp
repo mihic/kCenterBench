@@ -42,7 +42,7 @@ public:
   set<int> RadnomMaximalIndependentSet();
 
   int evalKCenter(vector<int> &centers);
-
+  int evalKCenter(set<int> &centers);
 
   int centersBruteForce(int k, bool optimized);
   void centersBruteForceRec(vector<int> &vec, int n, int i, int d);
@@ -65,5 +65,6 @@ public:
   int centersHochbaumShmoys(int k);
 
   int centersCDS(int k);
+  set<int> CDS(int k, int radius);
 
 };

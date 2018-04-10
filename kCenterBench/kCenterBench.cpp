@@ -125,6 +125,9 @@ int main(int argc, const char * argv [])
     else if (method == "hochbaumshmoys") {
       score = g.centersHochbaumShmoys(k);
     }
+    else if (method == "CDS") {
+      score = g.centersCDS(k);
+    }
     else {
       cerr << "invalid method \"" << method << '"' << endl;
       exit(-1);

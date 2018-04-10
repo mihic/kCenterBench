@@ -99,3 +99,25 @@ set<int> Graph::RadnomMaximalIndependentSet() {
   }
   return MIS;
 }
+
+int Graph::evalKCenter(vector<int>& centers) {
+  int max = -1;
+  int size = centers.size();
+  if (size == 0)
+    return MAX_INT;
+  for (int i = 0; i < n; ++i) {
+    int minv = MAX_INT;
+    for (int j = 0; j < size; ++j) {
+      if (shortestPaths[i][centers[j]] != -1)
+        minv = std::min(shortestPaths[i][centers[j]], minv);
+    }
+    max = std::max(max, minv);
+  }
+  //cout << "eval=" << max << endl;
+  return max;
+}
+
+int Graph::evalKCenter(set<int>& centers) {
+  vector<int> V_centers(centers.begin(), centers.end());
+  return evalKCenter(V_centers);
+}
