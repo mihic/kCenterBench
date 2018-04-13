@@ -20,7 +20,7 @@
     },
     {
       "Id": "d672fc5a-b39e-46ab-80b2-a0053af65bd7",
-      "Command": "-i samples/pmed/pmed2.txt"
+      "Command": "-i samples/pmed/pmed6.txt"
     },
     {
       "Id": "cf3c620c-0256-4d6b-bd04-bd52663c9bd7",
@@ -44,7 +44,7 @@
     },
     {
       "Id": "835c27a3-796e-4412-9055-0924c687550a",
-      "Command": "-m CDS"
+      "Command": "-m CDSh"
     }
   ]
 }

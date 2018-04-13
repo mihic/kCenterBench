@@ -65,6 +65,7 @@ public:
   int centersHochbaumShmoys(int k);
 
   int centersCDS(int k);
+  int centersCDSh(int k);
   set<int> CDS(int k, int radius);
 
 };

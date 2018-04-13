@@ -128,6 +128,9 @@ int main(int argc, const char * argv [])
     else if (method == "CDS") {
       score = g.centersCDS(k);
     }
+    else if (method == "CDSh") {
+      score = g.centersCDSh(k);
+    }
     else {
       cerr << "invalid method \"" << method << '"' << endl;
       exit(-1);

@@ -33,6 +33,54 @@ int Graph::centersCDS(int k) {
   return bestScore;
 }
 
+// n^2 log n heuristic (bisection)
+int Graph::centersCDSh(int k) {
+  calcShortestPath();
+  set<int> edgeLengths;
+  for (auto i : shortestPaths) {
+    for (int j : i) {
+      edgeLengths.emplace(j);
+    }
+  }
+  vector<int> Vedge_lengths(edgeLengths.begin(), edgeLengths.end());
+  sort(Vedge_lengths.begin(), Vedge_lengths.end());
+
+  int low = 0;
+  int high = edgeLengths.size();
+  int mid = high / 2;
+  bestScore = MAX_INT;
+  while (high - low > 2) {
+    mid = (high + low) / 2;
+    set<int> newCenters;
+    newCenters = CDS(k, Vedge_lengths[mid]);
+    vector<int> VnewCenters(newCenters.begin(), newCenters.end());
+    int newScore = evalKCenter(VnewCenters);
+
+    if (newScore < bestScore) {
+      bestScore = newScore;
+      bestCenters = VnewCenters;
+    }
+
+    if (newScore <= Vedge_lengths[mid]) {
+      high = mid;
+    }
+    else {
+      low = mid;
+    }
+    mid = (low + high) / 2;
+  }
+  if (debug) {
+    cout << "Score = " << bestScore << " with centers:" << endl;
+    for (int i : bestCenters) {
+      cout << i << ' ';
+    }
+    cout << endl;
+  }
+
+
+  return bestScore;
+}
+
 set<int> Graph::CDS(int numCenters, int radius) {
   set<int> centers;
   set<int> dominated;
