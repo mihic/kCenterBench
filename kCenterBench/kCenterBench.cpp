@@ -110,6 +110,9 @@ int main(int argc, const char * argv [])
     else if (method == "gonzalez1c") {
       score = g.centersGonzalez1C(k);
     }
+    else if (method == "gonzalezplus") {
+      score = g.centersGonazalezPlus(k);
+    }
     else if (method == "gonzalezrnd") {
       score = g.centersGonzalezRandom(k);
     }

@@ -20,7 +20,7 @@
     },
     {
       "Id": "d672fc5a-b39e-46ab-80b2-a0053af65bd7",
-      "Command": "-i samples/pmed/pmed15.txt"
+      "Command": "-i samples/pmed/pmed23.txt"
     },
     {
       "Id": "cf3c620c-0256-4d6b-bd04-bd52663c9bd7",
@@ -28,7 +28,7 @@
     },
     {
       "Id": "e3f1a8e7-10ac-419d-9c36-494458722a9a",
-      "Command": "-m gonzalez1c"
+      "Command": "-m gonzalezplus"
     },
     {
       "Id": "df053be2-03fe-4f90-a10d-ca88835b336d",

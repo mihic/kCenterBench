@@ -56,6 +56,7 @@ public:
 
   void gonzalezAddCenter(vector<int> &to, vector<int> &from);
   int centersGonzalezRandom(int k);
+  int centersGonazalezPlus(int k);
   int centersGonzalez1C(int k);
 
   int centersPlesnik(int k, bool deg);

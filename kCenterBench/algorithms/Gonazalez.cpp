@@ -50,6 +50,36 @@ int Graph::centersGonzalezRandom(int k) {
   return score;
 }
 
+int Graph::centersGonazalezPlus(int k) {
+  calcShortestPath();
+  int k1 = k - 1;
+  bestScore = MAX_INT;
+  for (int r = 0; r < n; ++r) {
+    vector<int> to = { r };
+    vector<int> from;
+    for (int j = 0; j < n; ++j) {
+      if (j != r)
+        from.emplace_back(j);
+    }    
+    for (int i = 0; i < k1; ++i) {
+      gonzalezAddCenter(to, from);
+    }
+    int score = evalKCenter(to);
+    if (score < bestScore) {
+      bestScore = score;
+      bestCenters = to;
+      if (debug) {
+        cout << score << endl;
+      }
+    }
+  }
+  if (debug) {
+    cout << "Score = " << bestScore << " with centers:" << endl;
+    printVec(bestCenters);
+  }
+  return bestScore;
+}
+
 int Graph::centersGonzalez1C(int k) {
   centersBruteForce(1, false);
   vector<int> from;
