@@ -153,5 +153,12 @@ set<int> Graph::CDS(int numCenters, int radius) {
 
     centers.emplace(best_vertex);
   }
+  //if (centers.size() == numCenters) {
+  //  cout << "ok" << endl;
+  //}
+  //else {
+  //  cout << "notok" << endl;
+  //  cout << "wanted: " << numCenters << "got: " << centers.size() << endl;
+  //}
   return centers;
 }
