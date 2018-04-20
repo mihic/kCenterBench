@@ -101,7 +101,7 @@ set<int> Graph::CDS(int numCenters, int radius) {
         degree++;
       }
     }
-    scores[i] = degree - 1; //self link overcount
+    scores[i] = degree - 2; //self link overcount
   }
   for (int i = 0; i < numCenters; ++i) {
 

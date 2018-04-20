@@ -64,6 +64,7 @@ public:
   bool Range(int k, int B, bool deg);
 
   int centersHochbaumShmoys(int k);
+  int centersHochbaumShmoysBin(int k);
 
   int centersCDS(int k);
   int centersCDSh(int k);

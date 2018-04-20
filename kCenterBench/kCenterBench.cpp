@@ -101,7 +101,7 @@ int main(int argc, const char * argv [])
     else if (method == "greedy") {
       score = g.centersGreedy(k);
     }
-    else if (method == "greedy+") {
+    else if (method == "greedyplus") {
       score = g.centersGreedyPlus(k);
     }
     else if (method == "greedyrnd") {
@@ -127,6 +127,9 @@ int main(int argc, const char * argv [])
     }
     else if (method == "hochbaumshmoys") {
       score = g.centersHochbaumShmoys(k);
+    }
+    else if (method == "hochbaumshmoysbin") {
+      score = g.centersHochbaumShmoysBin(k);
     }
     else if (method == "CDS") {
       score = g.centersCDS(k);
