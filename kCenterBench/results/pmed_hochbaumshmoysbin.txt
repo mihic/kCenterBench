@@ -1,0 +1,40 @@
+pmed 1: 188  10    ms
+pmed 2: 129  11    ms
+pmed 3: 137  10    ms
+pmed 4: 109  10    ms
+pmed 5: 62   6     ms
+pmed 6: 138  75    ms
+pmed 7: 88   77    ms
+pmed 8: 74   72    ms
+pmed 9: 50   58    ms
+pmed10: 27   43    ms
+pmed11: 73   244   ms
+pmed12: 71   234   ms
+pmed13: 53   235   ms
+pmed14: 36   151   ms
+pmed15: 22   130   ms
+pmed16: 83   534   ms
+pmed17: 56   530   ms
+pmed18: 40   499   ms
+pmed19: 26   357   ms
+pmed20: 18   296   ms
+pmed21: 53   1016  ms
+pmed22: 53   1108  ms
+pmed23: 32   916   ms
+pmed24: 22   578   ms
+pmed25: 15   580   ms
+pmed26: 50   1867  ms
+pmed27: 43   1725  ms
+pmed28: 28   1900  ms
+pmed29: 18   1060  ms
+pmed30: 12   945   ms
+pmed31: 42   2797  ms
+pmed32: 43   3181  ms
+pmed33: 23   2263  ms
+pmed34: 16   1730  ms
+pmed35: 38   3976  ms
+pmed36: 41   4464  ms
+pmed37: 22   3466  ms
+pmed38: 39   6387  ms
+pmed39: 35   6658  ms
+pmed40: 19   4789  ms

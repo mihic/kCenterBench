@@ -34,7 +34,7 @@ def main():
 	# else:
 	# 	print("neki je slo narobe")
   for i in range(1,41):
-    result = test("/home/miha/kCenterBench/kCenterBench/main",f"samples/pmed/pmed{i}.txt","CDS",timeout)
+    result = test("/home/miha/kCenterBench/kCenterBench/main",f"samples/pmed/pmed{i}.txt","CDSh",timeout)
     if result['status'] == "OK":
       print(f"pmed{i:2}: {result['solution']:4} {result['execution_time']:5} ms")
     elif result['status'] == "TIMEOUT":

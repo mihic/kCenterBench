@@ -63,37 +63,48 @@ def gen(parameter_list,timeout,f):
       return {'status': 'TIMEOUT'}
 
 def main():
-  timeout = 5000
+  timeout = 1
   genpath = "/home/miha/GraphGen/GraphGen/main"
   testpath = "/home/miha/kCenterBench/kCenterBench/main"
-  algs = ["greedy","CDSh"]
-  for i in range(500,501):
-
-    #GEN
-    f = tempfile.NamedTemporaryFile(mode='w',encoding='ascii')
-    print(f"generating test {i}...")
-    result = gen([genpath,"-n",f"{i}","-f","pmed","-t","random","-p","0.01","-s","42"],timeout,f)
-    if result['status'] == "OK":
-      print(f"running test {i}...")
-    elif result['status'] == "TIMEOUT":
-      print(f"timeout on generation")
-      return
-    else:
-      print("ERROR in generation")
-      print(f"stdout:\n{result['stdout']}\nstderr:\n{result['stderr']}\n")
-      return
-    f.flush()
-
-    #TEST
-    for alg in algs:
-      result = test(testpath,f"{f.name}",alg,timeout)
+  all_algs = ["greedy","greedyplus","gonzalez1c","gonzalezplus","plesnikdeg","hochbaumshmoys","CDS","CDSh"]
+  #graph_types =["random", "grid","scalefree"]
+  densities = [1,0.7,0.5,0.3,0.1,0.01,0.001]
+  print("algorithm,graph_type,seed,n,density,score,execution_time")
+  for density in densities:
+    algs = list(all_algs)
+    n = 100
+    while len(algs) > 0:
+    #for i in range(100,101):
+      #GEN
+      f = tempfile.NamedTemporaryFile(mode='w',encoding='ascii')
+      #print(f"generating test {n}...")
+      result = gen([genpath,"-n",f"{n}","-f","pmed","-t","random","-p",f"{density}","-s","42"],timeout*10,f)
       if result['status'] == "OK":
-        print(f"{alg:10} on n={i:5}: {result['solution']:4} {result['execution_time']:5} ms")
-      elif result['status'] == "TIMEOUT":
-        print(f"timeout({timeout}s)")
+        pass
+        #print(f"running test {n}...")
+      elif result['status'] == "TIMEOUT": 
+        print(f"timeout on generation")
+        return
       else:
-       print("ERROR")
-       print(f"stdout:\n{result['stdout']}\nstderr:\n{result['stderr']}\n")
-    f.close()
+        print("ERROR in generation")
+        print(f"stdout:\n{result['stdout']}\nstderr:\n{result['stderr']}\n")
+        return
+      f.flush()
+      #TEST
+      for alg in list(algs):
+        result = test(testpath,f"{f.name}",alg,timeout)
+        if result['status'] == "OK":
+          #print(f"{alg:15} on n={n:5}: {result['solution']:6} {result['execution_time']:10} ms")
+          print(f"{alg},random,42,{n},{density},{result['solution']},{result['execution_time']}")
+        elif result['status'] == "TIMEOUT":
+          #print(f"timeout({timeout}s)")
+          print(f"{alg},random,42,{n},{density},-1,-1")
+          algs.remove(alg)
+        else:
+          print("ERROR")
+          print(f"stdout:\n{result['stdout']}\nstderr:\n{result['stderr']}\n")
+          return
+      n = n + 100
+      f.close()
 if __name__ == '__main__':
   main()
