@@ -2,7 +2,7 @@
 
 
 // n^4 3-aprox
-int Graph::centersCDS(int k) {
+int Graph::centersCDSn4(int k) {
   calcShortestPath();
   set<int> edgeLengths;
   for (auto i : shortestPaths) {
@@ -12,15 +12,21 @@ int Graph::centersCDS(int k) {
   }
   bestScore = MAX_INT;
   for (int m : edgeLengths) {
-    set<int> newCenters;
-    newCenters = CDS(k, m);
-    vector<int> VnewCenters(newCenters.begin(), newCenters.end());
-    int newScore = evalKCenter(VnewCenters);
-    if (newScore < bestScore) {
-      bestScore = newScore;
-      bestCenters = VnewCenters;
+    for (int i = 0; i < n; ++i) {
+      set<int> newCenters;
+      newCenters = CDS(k, m, i);
+      vector<int> VnewCenters(newCenters.begin(), newCenters.end());
+      int newScore = evalKCenter(VnewCenters);
+      if (newScore < bestScore) {
+        bestScore = newScore;
+        bestCenters = VnewCenters;
+      }
     }
   }
+
+
+
+
   if (debug) {
     cout << "Score = " << bestScore << " with centers:" << endl;
     for (int i : bestCenters) {
@@ -28,13 +34,11 @@ int Graph::centersCDS(int k) {
     }
     cout << endl;
   }
-
-
   return bestScore;
 }
 
 // n^2 log n heuristic (bisection)
-int Graph::centersCDSh(int k) {
+int Graph::centersCDS(int k, bool heu, bool plus) {
   calcShortestPath();
   set<int> edgeLengths;
   for (auto i : shortestPaths) {
@@ -49,24 +53,55 @@ int Graph::centersCDSh(int k) {
   int high = edgeLengths.size();
   int mid = high / 2;
   bestScore = MAX_INT;
+  int newScore;
   while (high - low > 2) {
     mid = (high + low) / 2;
-    set<int> newCenters;
-    newCenters = CDS(k, Vedge_lengths[mid]);
-    vector<int> VnewCenters(newCenters.begin(), newCenters.end());
-    int newScore = evalKCenter(VnewCenters);
-
-    if (newScore < bestScore) {
-      bestScore = newScore;
-      bestCenters = VnewCenters;
-    }
-
-    if (newScore <= Vedge_lengths[mid]) {
-      high = mid;
+    if (plus) {
+      for (int i = 0; i < n; ++i) {
+        set<int> newCenters;
+        newCenters = CDS(k, Vedge_lengths[mid], i);
+        vector<int> VnewCenters(newCenters.begin(), newCenters.end());
+        newScore = evalKCenter(VnewCenters);
+        if (newScore < bestScore) {
+          bestScore = newScore;
+          bestCenters = VnewCenters;
+        }
+      }
     }
     else {
-      low = mid;
+      set<int> newCenters;
+      newCenters = CDS(k, Vedge_lengths[mid], -1);
+      vector<int> VnewCenters(newCenters.begin(), newCenters.end());
+      newScore = evalKCenter(VnewCenters);
+      if (newScore < bestScore) {
+        bestScore = newScore;
+        bestCenters = VnewCenters;
+      }
     }
+
+    if (heu) { //heuristic search
+      if (bestScore <= Vedge_lengths[mid]) {
+        high = mid;
+      }
+      else {
+        low = mid;
+      }
+    }
+    else { // 3-aprox search
+      if (bestScore <= Vedge_lengths[mid]) {
+        high = mid;
+      }
+      else {
+        if (newScore > 3 * Vedge_lengths[mid]) {
+         low = mid;
+        }
+        else {
+          high = mid;
+        }
+      }
+    }
+
+
     mid = (low + high) / 2;
   }
   if (debug) {
@@ -81,7 +116,7 @@ int Graph::centersCDSh(int k) {
   return bestScore;
 }
 
-set<int> Graph::CDS(int numCenters, int radius) {
+set<int> Graph::CDS(int numCenters, int radius, int init) {
   set<int> centers;
   set<int> dominated;
   Graph Gi(n);
@@ -106,19 +141,25 @@ set<int> Graph::CDS(int numCenters, int radius) {
   for (int i = 0; i < numCenters; ++i) {
     int f_i = 0;
     int dist = -1;
-    if (i == 0) {
-      int bestv = 0;
-      int vscore = MAX_INT;
-      for (int v = 0; v < n; v++) {
-        vector<int> vec = { v };
-        int sc = evalKCenter(vec);
-        if (sc < vscore) {
-          vscore = sc;
-          bestv = v;
+    if (i == 0) { // first center can't be placed by this heurstic
+      if (init == -1) { // if no init given, choose by solving best 1-center on bottlneck graph
+        int bestv = 0;
+        int vscore = MAX_INT;
+        for (int v = 0; v < n; v++) {
+          vector<int> vec = { v };
+          int sc = evalKCenter(vec);
+          if (sc < vscore) {
+            vscore = sc;
+            bestv = v;
+          }
         }
+        f_i = bestv;
       }
-      f_i = bestv;
-    } else {
+      else { // use the init given
+        f_i = init;
+      }
+    }
+    else {
       //find vertex with maximum distance to its closest center
       for (int vert = 0; vert < n; vert++) {
         int closest_center = -1;
@@ -153,9 +194,9 @@ set<int> Graph::CDS(int numCenters, int radius) {
     for (int v = 0; v < n; v++) {
       if (Gi.adjMatrix[best_vertex][v] != -1) { // v = neighbours of best_vertex
         if (dominated.find(v) == dominated.end()) { // that are not already dominated
-          for (int v2 = 0; v2 < n; v2++) {
-            if (Gi.adjMatrix[v][v2] != -1) { // v2 neighbours of v
-              scores[v2]--;
+          for (int u = 0; u < n; u++) {
+            if (Gi.adjMatrix[v][u] != -1) { // v2 neighbours of v
+              scores[u]--;
             }
             scores[v]++; // above counts itself as neighbour
           }
@@ -163,15 +204,7 @@ set<int> Graph::CDS(int numCenters, int radius) {
         }
       }
     }
-
     centers.emplace(best_vertex);
   }
-  //if (centers.size() == numCenters) {
-  //  cout << "ok" << endl;
-  //}
-  //else {
-  //  cout << "notok" << endl;
-  //  cout << "wanted: " << numCenters << "got: " << centers.size() << endl;
-  //}
   return centers;
 }

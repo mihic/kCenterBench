@@ -3,7 +3,7 @@
 
 bool debug;
 
-int main(int argc, const char * argv [])
+int main(int argc, const char * argv[])
 {
   Graph g;
   int k = -1;
@@ -131,11 +131,20 @@ int main(int argc, const char * argv [])
     else if (method == "hochbaumshmoysbin") {
       score = g.centersHochbaumShmoysBin(k);
     }
-    else if (method == "CDS") {
-      score = g.centersCDS(k);
+    else if (method == "CDSn4") {
+      score = g.centersCDSn4(k);
     }
     else if (method == "CDSh") {
-      score = g.centersCDSh(k);
+      score = g.centersCDS(k, true, false);
+    }
+    else if (method == "CDSPh") {
+      score = g.centersCDS(k, true, true);
+    }
+    else if (method == "CDSP") {
+      score = g.centersCDS(k, false, true);
+    }
+    else if (method == "CDS") {
+      score = g.centersCDS(k, false, false);
     }
     else {
       cerr << "invalid method \"" << method << '"' << endl;
