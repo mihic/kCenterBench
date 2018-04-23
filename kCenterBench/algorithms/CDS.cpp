@@ -104,23 +104,36 @@ set<int> Graph::CDS(int numCenters, int radius) {
     scores[i] = degree - 2; //self link overcount
   }
   for (int i = 0; i < numCenters; ++i) {
-
-    //find vertex with maximum distance its closest center
     int f_i = 0;
     int dist = -1;
-    for (int vert = 0; vert < n; vert++) {
-      int closest_center = -1;
-      int closest_center_distance = MAX_INT;
-      for (int c : centers) {
-        int d = Gi.adjMatrix[vert][c];
-        if (d != -1 && d < closest_center_distance) {
-          closest_center = c;
-          closest_center_distance = d;
+    if (i == 0) {
+      int bestv = 0;
+      int vscore = MAX_INT;
+      for (int v = 0; v < n; v++) {
+        vector<int> vec = { v };
+        int sc = evalKCenter(vec);
+        if (sc < vscore) {
+          vscore = sc;
+          bestv = v;
         }
       }
-      if (closest_center_distance > dist) {
-        f_i = i;
-        dist = closest_center_distance;
+      f_i = bestv;
+    } else {
+      //find vertex with maximum distance to its closest center
+      for (int vert = 0; vert < n; vert++) {
+        int closest_center = -1;
+        int closest_center_distance = MAX_INT;
+        for (int c : centers) {
+          int d = Gi.adjMatrix[vert][c];
+          if (d != -1 && d < closest_center_distance) {
+            closest_center = c;
+            closest_center_distance = d;
+          }
+        }
+        if (closest_center_distance > dist) {
+          f_i = vert;
+          dist = closest_center_distance;
+        }
       }
     }
 
