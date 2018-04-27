@@ -1,40 +1,40 @@
-pmed 1: 128  3     ms
-pmed 2: 129  5     ms
-pmed 3: 153  5     ms
-pmed 4: 114  5     ms
-pmed 5: 87   7     ms
-pmed 6: 89   24    ms
-pmed 7: 74   24    ms
-pmed 8: 70   28    ms
-pmed 9: 71   36    ms
-pmed10: 70   55    ms
-pmed11: 62   71    ms
-pmed12: 72   73    ms
-pmed13: 47   80    ms
-pmed14: 60   113   ms
-pmed15: 44   165   ms
+pmed 1: 130  3     ms
+pmed 2: 104  6     ms
+pmed 3: 106  3     ms
+pmed 4: 83   5     ms
+pmed 5: 50   6     ms
+pmed 6: 91   23    ms
+pmed 7: 66   24    ms
+pmed 8: 61   26    ms
+pmed 9: 41   33    ms
+pmed10: 20   54    ms
+pmed11: 61   71    ms
+pmed12: 54   72    ms
+pmed13: 39   81    ms
+pmed14: 30   108   ms
+pmed15: 19   163   ms
 pmed16: 47   159   ms
-pmed17: 41   159   ms
-pmed18: 50   181   ms
-pmed19: 32   243   ms
-pmed20: 31   383   ms
+pmed17: 41   160   ms
+pmed18: 32   181   ms
+pmed19: 21   235   ms
+pmed20: 15   385   ms
 pmed21: 41   301   ms
-pmed22: 45   302   ms
-pmed23: 29   337   ms
-pmed24: 39   456   ms
-pmed25: 39   731   ms
-pmed26: 39   503   ms
-pmed27: 36   504   ms
-pmed28: 57   549   ms
-pmed29: 36   765   ms
-pmed30: 40   1214  ms
-pmed31: 30   779   ms
-pmed32: 73   779   ms
-pmed33: 22   877   ms
-pmed34: 41   1159  ms
-pmed35: 30   1161  ms
-pmed36: 42   1156  ms
-pmed37: 21   1299  ms
-pmed38: 40   1658  ms
-pmed39: 74   1647  ms
-pmed40: 23   1878  ms
+pmed22: 42   303   ms
+pmed23: 24   339   ms
+pmed24: 17   449   ms
+pmed25: 13   748   ms
+pmed26: 38   505   ms
+pmed27: 33   506   ms
+pmed28: 20   573   ms
+pmed29: 14   805   ms
+pmed30: 11   1253  ms
+pmed31: 30   781   ms
+pmed32: 32   794   ms
+pmed33: 18   893   ms
+pmed34: 12   1219  ms
+pmed35: 30   1168  ms
+pmed36: 28   1184  ms
+pmed37: 16   1309  ms
+pmed38: 30   1688  ms
+pmed39: 24   1693  ms
+pmed40: 14   1885  ms
