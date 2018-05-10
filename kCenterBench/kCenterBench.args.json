@@ -7,6 +7,10 @@
       "Command": "-d"
     },
     {
+      "Id": "cc17ccb0-7795-4618-a9fe-7f9d57db128a",
+      "Command": "-c 3"
+    },
+    {
       "Id": "7f7151a3-c997-47d9-8901-4b03e83002a4",
       "Command": "-f pmed"
     },
@@ -24,11 +28,19 @@
     },
     {
       "Id": "cf3c620c-0256-4d6b-bd04-bd52663c9bd7",
-      "Command": "-i samples/sample4.graph"
+      "Command": "-i samples/sample500.graph"
     },
     {
       "Id": "e3f1a8e7-10ac-419d-9c36-494458722a9a",
       "Command": "-m gonzalezplus"
+    },
+    {
+      "Id": "cbae8423-dae6-4344-88d9-13a76df79853",
+      "Command": "-m bf"
+    },
+    {
+      "Id": "67fd352e-2447-4864-bd43-bdefad9790c7",
+      "Command": "-m bfbb"
     },
     {
       "Id": "df053be2-03fe-4f90-a10d-ca88835b336d",

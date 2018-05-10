@@ -100,6 +100,24 @@ set<int> Graph::RadnomMaximalIndependentSet() {
   return MIS;
 }
 
+bool Graph::checkCovered(set<int>& selected) {
+  for (int i = 0; i < n; ++i) {
+    bool covered = false;
+    for (int j = 0; j < n; ++j) {
+      if (adjMatrix[i][j] != -1 && selected.count(j) == 1) {
+        covered = true;
+        break;
+      }
+    }
+    if (!covered) {
+      return false;
+    }
+  }
+  return true;
+}
+
+
+
 int Graph::evalKCenter(vector<int>& centers) {
   int max = -1;
   int size = centers.size();

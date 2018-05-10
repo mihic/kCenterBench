@@ -40,13 +40,18 @@ public:
   void calcSqAdjMatrix();
 
   set<int> RadnomMaximalIndependentSet();
+  set<int> BestMaximalIndependentSet(int k);
+  void BruteForceIndependentSet(vector<int>& vec, set<int>& result, int i, int d);
+  bool checkCovered(set<int>& vec);
 
   int evalKCenter(vector<int> &centers);
   int evalKCenter(set<int> &centers);
 
   int centersBruteForce(int k, bool optimized);
-  void centersBruteForceRec(vector<int> &vec, int n, int i, int d);
-  void centersBruteForceRecOpt(vector<int> &vec, int n, int i, int d);
+  void centersBruteForceRec(vector<int> &vec, int i, int d);
+  void centersBruteForceRecOpt(vector<int> &vec, int i, int d);
+  int centersBottleneckBruteForce(int k);
+  int centersBottleneckBruteForceBin(int k);
 
   void greedyAddCenter(vector<int> &to, unordered_set<int> &from);
   int centersGreedy(int k);

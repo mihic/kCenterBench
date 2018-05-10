@@ -98,6 +98,18 @@ int main(int argc, const char * argv[])
       }
       score = g.bestScore;
     }
+    else if (method == "bfb") {
+      if (debug) {
+        cout << "Bruteforcing (bottleneck) " << k << "-center" << endl;
+      }
+      score = g.centersBottleneckBruteForce(k);
+    }
+    else if (method == "bfbb") {
+      if (debug) {
+        cout << "Bruteforcing (bottleneck - binary search) " << k << "-center" << endl;
+      }
+      score = g.centersBottleneckBruteForceBin(k);
+    }
     else if (method == "greedy") {
       score = g.centersGreedy(k);
     }
