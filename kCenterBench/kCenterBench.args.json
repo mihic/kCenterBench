@@ -57,6 +57,10 @@
     {
       "Id": "835c27a3-796e-4412-9055-0924c687550a",
       "Command": "-m CDSh"
+    },
+    {
+      "Id": "ea0284db-f7ae-42f7-97b0-2dfcea661ff5",
+      "Command": "-m CDSn4"
     }
   ]
 }

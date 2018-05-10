@@ -40,6 +40,7 @@ public:
   void calcSqAdjMatrix();
 
   set<int> RadnomMaximalIndependentSet();
+  set<int> GreedyMaximalIndependentSet();
   set<int> BestMaximalIndependentSet(int k);
   void BruteForceIndependentSet(vector<int>& vec, set<int>& result, int i, int d);
   bool checkCovered(set<int>& vec);

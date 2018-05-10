@@ -19,7 +19,8 @@ int Graph::centersHochbaumShmoys(int k) {
   		}
   	}
   	Gi.calcSqAdjMatrix();
-  	set<int> centers = Gi.RadnomMaximalIndependentSet();
+  	//set<int> centers = Gi.RadnomMaximalIndependentSet();
+    set<int> centers = Gi.GreedyMaximalIndependentSet();
   	if (centers.size() <= k) {
   		vector<int> Vcenters(centers.begin(), centers.end());
       int score = evalKCenter(Vcenters);
@@ -61,7 +62,8 @@ int Graph::centersHochbaumShmoysBin(int k) {
       }
     }
     Gi.calcSqAdjMatrix();
-    centers = Gi.RadnomMaximalIndependentSet();
+    //centers = Gi.RadnomMaximalIndependentSet();
+    centers = Gi.GreedyMaximalIndependentSet();
     int s = centers.size();
     if (debug) {
       cout << "m=" << m << "csize=" << s << endl;
@@ -84,7 +86,8 @@ int Graph::centersHochbaumShmoysBin(int k) {
     }
   }
   Gi.calcSqAdjMatrix();
-  centers = Gi.RadnomMaximalIndependentSet();
+  //centers = Gi.RadnomMaximalIndependentSet();
+  centers = Gi.GreedyMaximalIndependentSet();
   //end of "this"
 
   vector<int> Vcenters(centers.begin(), centers.end());

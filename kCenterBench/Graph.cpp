@@ -100,6 +100,51 @@ set<int> Graph::RadnomMaximalIndependentSet() {
   return MIS;
 }
 
+set<int> Graph::GreedyMaximalIndependentSet() {
+  vector<int> degs(n);
+  vector<bool> covered(n, false);
+  set<int> MIS;
+  for (int i = 0; i < n;++i) {
+    for (int j = 0; j < n;++j) {
+      if (adjMatrix[i][j] != -1) {
+        degs[i]++;
+      }
+    }
+  }
+  while (true) {
+    bool done = true;
+    int maxDeg = 0;
+    int maxDegIdx = -1;
+    for (int i = 0; i < n; ++i) { //find max deg
+      if (!covered[i]) {
+        done = false;
+        if (degs[i] >= maxDeg) {
+          maxDeg = degs[i];
+          maxDegIdx = i;
+        }
+      }
+    }
+    if (done) break;
+    //cover max deg
+    MIS.emplace(maxDegIdx);
+    covered[maxDegIdx] = true;
+    for (int i = 0; i < n; ++i) {
+      if (adjMatrix[maxDegIdx][i] != -1) {
+        covered[i] = true;
+        degs[i]--;
+        //for (int j = 0; j < n; ++j) { //neighbours of neighbours have lower degree
+        //  if (adjMatrix[i][j] != -1) {
+        //    degs[j]--;
+        //  }
+        //}
+      }
+    }
+  }
+  return MIS;
+
+  
+}
+
 bool Graph::checkCovered(set<int>& selected) {
   for (int i = 0; i < n; ++i) {
     bool covered = false;
