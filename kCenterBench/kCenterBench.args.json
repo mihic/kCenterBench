@@ -8,7 +8,7 @@
     },
     {
       "Id": "cc17ccb0-7795-4618-a9fe-7f9d57db128a",
-      "Command": "-c 3"
+      "Command": "-c 4"
     },
     {
       "Id": "7f7151a3-c997-47d9-8901-4b03e83002a4",
@@ -24,11 +24,11 @@
     },
     {
       "Id": "d672fc5a-b39e-46ab-80b2-a0053af65bd7",
-      "Command": "-i samples/pmed/pmed2.txt"
+      "Command": "-i samples/pmed/pmed40.txt"
     },
     {
       "Id": "cf3c620c-0256-4d6b-bd04-bd52663c9bd7",
-      "Command": "-i samples/sample500.graph"
+      "Command": "-i samples/sample50.graph"
     },
     {
       "Id": "e3f1a8e7-10ac-419d-9c36-494458722a9a",
@@ -37,6 +37,10 @@
     {
       "Id": "cbae8423-dae6-4344-88d9-13a76df79853",
       "Command": "-m bf"
+    },
+    {
+      "Id": "77998cb4-dd40-4f8b-88a1-264c4c27a686",
+      "Command": "-m bottleneck"
     },
     {
       "Id": "67fd352e-2447-4864-bd43-bdefad9790c7",

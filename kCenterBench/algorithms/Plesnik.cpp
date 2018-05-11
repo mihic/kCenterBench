@@ -42,7 +42,7 @@ int Graph::centersPlesnik(int k, bool deg) {
     if (Range(k, len, deg)) {
       int score = evalKCenter(rangeCenters);
       if (debug) {
-        cout << "Score = " << score << " with centers:" << endl;
+        cout << "Score = " << score << " with centers(" << rangeCenters.size() << "):" << endl;
         printVec(rangeCenters);
       }
       return score;
@@ -91,7 +91,7 @@ int Graph::centersPlesnikPlus(int k) {
     }
   }
   if (debug) {
-    cout << "Score+ = " << bestScore << " with centers:" << endl;
+    cout << "Score = " << bestScore << " with centers(" << bestCenters.size() << "):" << endl;
     printVec(bestCenters);
   }
   return bestScore;

@@ -39,7 +39,7 @@ int Graph::centersGreedy(int k) {
   }
   int score = evalKCenter(to);
   if (debug) {
-    cout << "Score = " << score << " with centers:" << endl;
+    cout << "Score = " << score << " with centers(" << to.size() << "):" << endl;
     printVec(to);
   }
   return score;
@@ -69,7 +69,7 @@ int Graph::centersGreedyPlus(int k) {
     }
   }
   if (debug) {
-    cout << "Score = " << bestScore << " with centers:" << endl;
+    cout << "Score = " << bestScore << " with centers(" << bestCenters.size() << "):" << endl;
     printVec(bestCenters);
   }
   return bestScore;
@@ -95,7 +95,7 @@ int Graph::centersGreedyRandom(int k) {
   }
   int score = evalKCenter(to);
   if (debug) {
-    cout << "Score = " << score << " with centers:" << endl;
+    cout << "Score = " << score << " with centers(" << to.size() << "):" << endl;
     printVec(to);
   }
   return score;

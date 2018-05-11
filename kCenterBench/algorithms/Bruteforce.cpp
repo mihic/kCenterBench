@@ -127,7 +127,7 @@ int Graph::centersBottleneckBruteForce(int k) {
       vector<int> Vcenters(centers.begin(), centers.end());
       int score = evalKCenter(Vcenters);
       if (debug) {
-        cout << "Score = " << score << " with centers:" << endl;
+        cout << "Score = " << score << " with centers(" << Vcenters.size() << "):" << endl;
         for (int i : centers) {
           cout << i << ' ';
         }
@@ -176,7 +176,7 @@ int Graph::centersBottleneckBruteForceBin(int k) {
       b = c;
     }
   }
-  int m = VedgeLengths[c];
+  int m = VedgeLengths[b];
   Graph Gi(n);
 
   for (int i = 0; i < n; ++i) {
@@ -193,7 +193,7 @@ int Graph::centersBottleneckBruteForceBin(int k) {
   vector<int> Vcenters(centers.begin(), centers.end());
   int score = evalKCenter(Vcenters);
   if (debug) {
-    cout << "Score = " << score << " with centers:" << endl;
+    cout << "Score = " << score << " with centers(" << Vcenters.size() << "):" << endl;
     for (int i : Vcenters) {
       cout << i << ' ';
     }

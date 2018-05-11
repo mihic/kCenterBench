@@ -44,7 +44,7 @@ int Graph::centersGonzalezRandom(int k) {
   }
   int score = evalKCenter(to);
   if (debug) {
-    cout << "Score = " << score << " with centers:" << endl;
+    cout << "Score = " << score << " with centers(" << to.size() << "):" << endl;
     printVec(to);
   }
   return score;
@@ -74,7 +74,7 @@ int Graph::centersGonazalezPlus(int k) {
     }
   }
   if (debug) {
-    cout << "Score = " << bestScore << " with centers:" << endl;
+    cout << "Score = " << bestScore << " with centers(" << bestCenters.size() << "):" << endl;
     printVec(bestCenters);
   }
   return bestScore;
@@ -95,7 +95,7 @@ int Graph::centersGonzalez1C(int k) {
   }
   int score = evalKCenter(to);
   if (debug) {
-    cout << "Score = " << score << " with centers:" << endl;
+    cout << "Score = " << score << " with centers(" << to.size() << "):" << endl;
     printVec(to);
   }
   return score;

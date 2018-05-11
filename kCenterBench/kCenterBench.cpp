@@ -143,6 +143,9 @@ int main(int argc, const char * argv[])
     else if (method == "hochbaumshmoysbin") {
       score = g.centersHochbaumShmoysBin(k);
     }
+    else if (method == "bottleneck") {
+      score = g.centersBottleneckHeuristicsBin(k);
+    }
     else if (method == "CDSn4") {
       score = g.centersCDSn4(k);
     }

@@ -21,7 +21,6 @@ public:
 
 
   vector<vector<int>> adjMatrix;
-  vector<vector<int>> sqAdjMatrix;
   vector<vector<int>> shortestPaths;
   int n;
   Graph(int a) : adjMatrix(a, vector<int>(a, -1)), n(a) {}
@@ -37,7 +36,7 @@ public:
 
   void calcShortestPath();
 
-  void calcSqAdjMatrix();
+  void Sqaure();
 
   set<int> RadnomMaximalIndependentSet();
   set<int> GreedyMaximalIndependentSet();
@@ -71,6 +70,7 @@ public:
 
   int centersHochbaumShmoys(int k);
   int centersHochbaumShmoysBin(int k);
+  int centersBottleneckHeuristicsBin(int k);
 
   int centersCDSn4(int k);
   int centersCDS(int k, bool heu, bool plus);

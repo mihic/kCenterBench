@@ -64,8 +64,8 @@ void Graph::calcShortestPath() {
   }
 }
 
-void Graph::calcSqAdjMatrix() {
-  sqAdjMatrix = adjMatrix;
+void Graph::Sqaure() {
+  vector<vector<int>>sqAdjMatrix = adjMatrix;
   for (int i = 0; i < n; ++i) {
     for (int j = 0; j < n; ++j) {
       for (int k = i; k < j; ++k) {
@@ -80,6 +80,7 @@ void Graph::calcSqAdjMatrix() {
       }
     }
   }
+  adjMatrix = sqAdjMatrix;
 }
 
 set<int> Graph::RadnomMaximalIndependentSet() {
@@ -88,7 +89,7 @@ set<int> Graph::RadnomMaximalIndependentSet() {
   for (int i = 1; i < n; ++i) {
     bool covered = false;
     for (int j = 0; j < n; ++j) {
-      if (sqAdjMatrix[i][j] != -1 && MIS.count(j) == 1) {
+      if (adjMatrix[i][j] != -1 && MIS.count(j) == 1) {
         covered = true;
         break;
       }
@@ -104,8 +105,8 @@ set<int> Graph::GreedyMaximalIndependentSet() {
   vector<int> degs(n);
   vector<bool> covered(n, false);
   set<int> MIS;
-  for (int i = 0; i < n;++i) {
-    for (int j = 0; j < n;++j) {
+  for (int i = 0; i < n; ++i) {
+    for (int j = 0; j < n; ++j) {
       if (adjMatrix[i][j] != -1) {
         degs[i]++;
       }
@@ -132,18 +133,12 @@ set<int> Graph::GreedyMaximalIndependentSet() {
       if (adjMatrix[maxDegIdx][i] != -1) {
         covered[i] = true;
         degs[i]--;
-        //for (int j = 0; j < n; ++j) { //neighbours of neighbours have lower degree
-        //  if (adjMatrix[i][j] != -1) {
-        //    degs[j]--;
-        //  }
-        //}
       }
     }
   }
   return MIS;
-
-  
 }
+
 
 bool Graph::checkCovered(set<int>& selected) {
   for (int i = 0; i < n; ++i) {

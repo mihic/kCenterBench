@@ -28,7 +28,7 @@ int Graph::centersCDSn4(int k) {
 
 
   if (debug) {
-    cout << "Score = " << bestScore << " with centers:" << endl;
+    cout << "Score = " << bestScore << " with centers(" << bestCenters.size() << "):" << endl;
     for (int i : bestCenters) {
       cout << i << ' ';
     }
@@ -105,7 +105,7 @@ int Graph::centersCDS(int k, bool heu, bool plus) {
     mid = (low + high) / 2;
   }
   if (debug) {
-    cout << "Score = " << bestScore << " with centers:" << endl;
+    cout << "Score = " << bestScore << " with centers(" << bestCenters.size() << "):" << endl;
     for (int i : bestCenters) {
       cout << i << ' ';
     }
