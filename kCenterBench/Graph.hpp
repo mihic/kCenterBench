@@ -40,6 +40,7 @@ public:
 
   set<int> RadnomMaximalIndependentSet();
   set<int> GreedyMaximalIndependentSet();
+  set<int> ScoreDynamicDominatingSet();
   set<int> BestMaximalIndependentSet(int k);
   void BruteForceIndependentSet(vector<int>& vec, set<int>& result, int i, int d);
   bool checkCovered(set<int>& vec);
@@ -71,6 +72,7 @@ public:
   int centersHochbaumShmoys(int k);
   int centersHochbaumShmoysBin(int k);
   int centersBottleneckHeuristicsBin(int k);
+  int centersBottleneckScore(int k);
 
   int centersCDSn4(int k);
   int centersCDS(int k, bool heu, bool plus);

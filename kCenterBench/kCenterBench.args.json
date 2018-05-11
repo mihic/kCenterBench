@@ -28,7 +28,7 @@
     },
     {
       "Id": "cf3c620c-0256-4d6b-bd04-bd52663c9bd7",
-      "Command": "-i samples/sample50.graph"
+      "Command": "-i samples/sample10.graph"
     },
     {
       "Id": "e3f1a8e7-10ac-419d-9c36-494458722a9a",
@@ -41,6 +41,10 @@
     {
       "Id": "77998cb4-dd40-4f8b-88a1-264c4c27a686",
       "Command": "-m bottleneck"
+    },
+    {
+      "Id": "bdd7b709-44fb-4fea-bce9-89622723e92e",
+      "Command": "-m score"
     },
     {
       "Id": "67fd352e-2447-4864-bd43-bdefad9790c7",

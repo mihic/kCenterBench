@@ -139,6 +139,55 @@ set<int> Graph::GreedyMaximalIndependentSet() {
   return MIS;
 }
 
+set<int> Graph::ScoreDynamicDominatingSet() {
+  vector<int> coverageCount(n);
+  for (int i = 0; i < n; ++i) {
+    for (int j = 0; j < n; ++j) {
+      if (adjMatrix[i][j] != -1) {
+        coverageCount[i]++;
+      }
+    }
+  }
+  vector<int> scores = coverageCount;
+
+  set<int> DS;
+  for (int i = 0; i < n; ++i) {
+    int minScore = MAX_INT;
+    int minScoreIdx = -1;
+    for (int j = 0; j < n; ++j) {
+      if (scores[j] < minScore) {
+        minScore = scores[j];
+        minScoreIdx = j;
+      }
+    }
+    bool added = false;
+    for (int j = 0; j < n; ++j) {
+      if (adjMatrix[minScoreIdx][j] != -1 && coverageCount[j] == 1) {
+        added = true;
+        DS.emplace(minScoreIdx);
+        for (int k = 0; k < n; ++k) {
+          if (adjMatrix[minScoreIdx][k] != -1) {
+            coverageCount[k] = 0;
+          }
+        }
+        break;
+      }
+    }
+    if (!added) {
+      for (int j = 0; j < n; ++j) {
+        if (adjMatrix[minScoreIdx][j] != -1 && coverageCount[j] > 0 && minScoreIdx!=j) {
+          coverageCount[j]--;
+          scores[j]++;
+        }
+      }
+    }
+    scores[minScoreIdx] = MAX_INT;
+  }
+  //printVec(scores);
+  //printVec(coverageCount);
+  return DS;
+}
+
 
 bool Graph::checkCovered(set<int>& selected) {
   for (int i = 0; i < n; ++i) {

@@ -146,6 +146,9 @@ int main(int argc, const char * argv[])
     else if (method == "bottleneck") {
       score = g.centersBottleneckHeuristicsBin(k);
     }
+    else if (method == "score") {
+      score = g.centersBottleneckScore(k);
+    }
     else if (method == "CDSn4") {
       score = g.centersCDSn4(k);
     }
