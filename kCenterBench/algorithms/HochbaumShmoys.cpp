@@ -9,31 +9,31 @@ int Graph::centersHochbaumShmoys(int k) {
     }
   }
   //OPTIMIZE -- only add new edges to Gi
-    for (int m : edgeLengths) {
-  	Graph Gi(n);
-  	for (int i = 0; i < n; ++i) {
-  		for (int j = 0; j < n; ++j) {
-  			if (shortestPaths[i][j] <= m) {
-  				Gi.adjMatrix[i][j] = shortestPaths[i][j];
-  			}
-  		}
-  	}
-  	Gi.Sqaure();
-  	//set<int> centers = Gi.RadnomMaximalIndependentSet();
+  for (int m : edgeLengths) {
+    Graph Gi(n);
+    for (int i = 0; i < n; ++i) {
+      for (int j = 0; j < n; ++j) {
+        if (shortestPaths[i][j] <= m) {
+          Gi.adjMatrix[i][j] = shortestPaths[i][j];
+        }
+      }
+    }
+    Gi.Sqaure();
+    //set<int> centers = Gi.RadnomMaximalIndependentSet();
     set<int> centers = Gi.GreedyMaximalIndependentSet();
-  	if (centers.size() <= k) {
-  		vector<int> Vcenters(centers.begin(), centers.end());
+    if (centers.size() <= k) {
+      vector<int> Vcenters(centers.begin(), centers.end());
       int score = evalKCenter(Vcenters);
-  		if (debug) {
+      if (debug) {
         cout << "Score = " << score << " with centers(" << Vcenters.size() << "):" << endl;
-  			for (int i : centers) {
-  				cout << i << ' ';
-  			}
-  			//cout << " at position m= " << m;
-  			cout << endl;
-  		}
+        for (int i : centers) {
+          cout << i << ' ';
+        }
+        //cout << " at position m= " << m;
+        cout << endl;
+      }
       return score;
-  	}
+    }
   }
 }
 int Graph::centersHochbaumShmoysBin(int k) {
@@ -61,7 +61,7 @@ int Graph::centersHochbaumShmoysBin(int k) {
         }
       }
     }
-   Gi.Sqaure();
+    Gi.Sqaure();
     //centers = Gi.RadnomMaximalIndependentSet();
     centers = Gi.GreedyMaximalIndependentSet();
     int s = centers.size();
@@ -126,7 +126,7 @@ int Graph::centersBottleneckHeuristicsBin(int k) {
     centers = Gi.GreedyMaximalIndependentSet();
     int s = centers.size();
     if (debug) {
-      cout << "a,c,b=" << a << ','<<c <<','<< b << " csize=" << s << endl;
+      cout << "a,c,b=" << a << ',' << c << ',' << b << " csize=" << s << endl;
     }
     if (centers.size() <= k) {
       b = c;

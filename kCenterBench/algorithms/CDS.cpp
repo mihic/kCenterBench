@@ -93,7 +93,7 @@ int Graph::centersCDS(int k, bool heu, bool plus) {
       }
       else {
         if (newScore > 3 * Vedge_lengths[mid]) {
-         low = mid;
+          low = mid;
         }
         else {
           high = mid;

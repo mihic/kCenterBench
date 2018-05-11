@@ -60,7 +60,7 @@ int Graph::centersGonazalezPlus(int k) {
     for (int j = 0; j < n; ++j) {
       if (j != r)
         from.emplace_back(j);
-    }    
+    }
     for (int i = 0; i < k1; ++i) {
       gonzalezAddCenter(to, from);
     }
