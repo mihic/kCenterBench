@@ -183,7 +183,7 @@ set<int> Graph::ScoreDynamicDominatingSet() {
     }
     scores[minScoreIdx] = MAX_INT;
   }
-  cout << "DS size: " << DS.size()<<endl;
+  //cout << "DS size: " << DS.size()<<endl;
   cout << "DS members: \n";
   vector<int>tmp(DS.begin(),DS.end());
   printVec(tmp);

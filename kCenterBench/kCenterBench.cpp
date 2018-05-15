@@ -110,6 +110,20 @@ int main(int argc, const char * argv[])
       }
       score = g.centersBottleneckBruteForceBin(k);
     }
+    else if (method == "bfbrec") {
+      if (debug) {
+        cout << "Bruteforcing (bottleneck - recursive dominating set) " << k << "-center" << endl;
+      }
+      score = g.centersRecursiveOptimalDominatingSet(k);
+    }
+    else if (method == "bfbbrec") {
+      if (debug) {
+        cout << "Bruteforcing (bottleneck - binary search - recursive dominating set) " << k << "-center" << endl;
+      }
+      score = g.centersRecursiveOptimalDominatingSetBin(k);
+    }
+
+
     else if (method == "greedy") {
       score = g.centersGreedy(k);
     }

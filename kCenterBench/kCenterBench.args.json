@@ -8,7 +8,7 @@
     },
     {
       "Id": "cc17ccb0-7795-4618-a9fe-7f9d57db128a",
-      "Command": "-c 4"
+      "Command": "-c 2"
     },
     {
       "Id": "7f7151a3-c997-47d9-8901-4b03e83002a4",
@@ -48,7 +48,7 @@
     },
     {
       "Id": "67fd352e-2447-4864-bd43-bdefad9790c7",
-      "Command": "-m bfbb"
+      "Command": "-m bfbbrec"
     },
     {
       "Id": "df053be2-03fe-4f90-a10d-ca88835b336d",

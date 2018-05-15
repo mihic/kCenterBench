@@ -41,7 +41,7 @@ public:
   set<int> RadnomMaximalIndependentSet();
   set<int> GreedyMaximalIndependentSet();
   set<int> ScoreDynamicDominatingSet();
-  set<int> BestMaximalIndependentSet(int k);
+  set<int> CombinatorialMinMaximalIndependentSet(int k);
   void BruteForceIndependentSet(vector<int>& vec, set<int>& result, int i, int d);
   bool checkCovered(set<int>& vec);
 
@@ -53,6 +53,34 @@ public:
   void centersBruteForceRecOpt(vector<int> &vec, int i, int d);
   int centersBottleneckBruteForce(int k);
   int centersBottleneckBruteForceBin(int k);
+
+  int centersRecursiveOptimalDominatingSetBin(int k);
+
+  int centersRecursiveOptimalDominatingSet(int k);
+
+
+
+  class RecursiveState {
+  public:
+    vector<int> dominating_set;
+    vector<int> min_dominating_set;
+    int num_undominated_vertices;
+    vector<int> num_reds;
+    vector<int> num_choice;
+    int delta;
+    int n;
+    int level;
+    int k;
+    RecursiveState(int n) : min_dominating_set(vector<int>(n)), num_undominated_vertices(n),
+                            num_reds(vector<int>(n,0)),
+                            num_choice(vector<int>(n)),delta(0),level(0),n(n){
+      for (int i = 0; i < n; ++i) {
+        min_dominating_set[i] = i;
+      }
+    }
+  };
+
+  void RecursiveOptimalDominatingSet(RecursiveState & s);
 
   void greedyAddCenter(vector<int> &to, unordered_set<int> &from);
   int centersGreedy(int k);
