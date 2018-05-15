@@ -113,7 +113,7 @@ int Graph::centersBottleneckHeuristicsBin(int k) {
   set<int> centers;
   vector<int> VedgeLengths(edgeLengths.begin(), edgeLengths.end());
   while (b - a > 1) {
-    int c = (a + b) / 2;
+    c = (a + b) / 2;
     int m = VedgeLengths[c];
     Graph Gi(n);
     for (int i = 0; i < n; ++i) {
@@ -166,6 +166,7 @@ int Graph::centersBottleneckScore(int k) {
     }
   }
   //OPTIMIZE -- only add new edges to Gi
+  //OR - check length inline when cheking if edge exists
   for (int m : edgeLengths) {
     Graph Gi(n);
     for (int i = 0; i < n; ++i) {
@@ -175,6 +176,7 @@ int Graph::centersBottleneckScore(int k) {
         }
       }
     }
+    cout << "m:" << m;
     set<int> centers = Gi.ScoreDynamicDominatingSet();
     if (centers.size() <= k) {
       cout << "been here all along\n";

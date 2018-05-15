@@ -175,7 +175,7 @@ set<int> Graph::ScoreDynamicDominatingSet() {
     }
     if (!added) {
       for (int j = 0; j < n; ++j) {
-        if (adjMatrix[minScoreIdx][j] != -1 && coverageCount[j] > 0 && minScoreIdx!=j) {
+        if (adjMatrix[minScoreIdx][j] != -1 && coverageCount[j] > 0 && minScoreIdx != j) {
           coverageCount[j]--;
           scores[j]++;
         }
@@ -183,6 +183,10 @@ set<int> Graph::ScoreDynamicDominatingSet() {
     }
     scores[minScoreIdx] = MAX_INT;
   }
+  cout << "DS size: " << DS.size()<<endl;
+  cout << "DS members: \n";
+  vector<int>tmp(DS.begin(),DS.end());
+  printVec(tmp);
   //printVec(scores);
   //printVec(coverageCount);
   return DS;
