@@ -8,7 +8,7 @@
     },
     {
       "Id": "cc17ccb0-7795-4618-a9fe-7f9d57db128a",
-      "Command": "-c 2"
+      "Command": "-c 4"
     },
     {
       "Id": "7f7151a3-c997-47d9-8901-4b03e83002a4",
@@ -20,7 +20,7 @@
     },
     {
       "Id": "b3ca51ea-0940-4a0c-9af5-a4bb1969f17a",
-      "Command": "-i samples/pmed/pmed1.txt"
+      "Command": "-i samples/pmed/pmed3.txt"
     },
     {
       "Id": "d672fc5a-b39e-46ab-80b2-a0053af65bd7",
@@ -28,7 +28,7 @@
     },
     {
       "Id": "cf3c620c-0256-4d6b-bd04-bd52663c9bd7",
-      "Command": "-i samples/sample10.graph"
+      "Command": "-i samples/sample50.graph"
     },
     {
       "Id": "e3f1a8e7-10ac-419d-9c36-494458722a9a",
@@ -49,6 +49,14 @@
     {
       "Id": "67fd352e-2447-4864-bd43-bdefad9790c7",
       "Command": "-m bfbbrec"
+    },
+    {
+      "Id": "90fe3a87-5b94-4c15-82db-02121f035c6b",
+      "Command": "-m reducebin"
+    },
+    {
+      "Id": "92ba8b1a-6443-4ef4-800f-9a94af7783a8",
+      "Command": "-m reduce"
     },
     {
       "Id": "df053be2-03fe-4f90-a10d-ca88835b336d",

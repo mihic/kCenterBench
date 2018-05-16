@@ -122,6 +122,18 @@ int main(int argc, const char * argv[])
       }
       score = g.centersRecursiveOptimalDominatingSetBin(k);
     }
+    else if (method == "reduce") {
+      if (debug) {
+        cout << "Bruteforcing (reduction) " << k << "-center" << endl;
+      }
+      score = g.centersReduceAndRecurse(k);
+    }
+    else if (method == "reducebin") {
+      if (debug) {
+        cout << "Bruteforcing (reduction) " << k << "-center" << endl;
+      }
+      score = g.centersReduceAndRecurseBin(k);
+    }
 
 
     else if (method == "greedy") {

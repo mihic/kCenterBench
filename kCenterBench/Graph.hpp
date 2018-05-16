@@ -22,8 +22,11 @@ public:
 
   vector<vector<int>> adjMatrix;
   vector<vector<int>> shortestPaths;
+  vector<bool> isWhite;
+  vector<bool> isDeleted;
+  vector<int> dominatingSet;
   int n;
-  Graph(int a) : adjMatrix(a, vector<int>(a, -1)), n(a) {}
+  Graph(int a) : adjMatrix(a, vector<int>(a, -1)), n(a),isDeleted(a,false) {}
 
   Graph() {
 
@@ -81,6 +84,16 @@ public:
   };
 
   void RecursiveOptimalDominatingSet(RecursiveState & s);
+
+  void RecursiveOptimalDominatingSetWithDeletion(RecursiveState & s);
+
+  bool GraphReductionRule1(int v);
+
+  void ReduceGraph();
+
+  int centersReduceAndRecurse(int k);
+
+  int centersReduceAndRecurseBin(int k);
 
   void greedyAddCenter(vector<int> &to, unordered_set<int> &from);
   int centersGreedy(int k);
