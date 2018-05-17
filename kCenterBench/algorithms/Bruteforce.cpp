@@ -422,8 +422,8 @@ void Graph::RecursiveOptimalDominatingSetWithDeletion(RecursiveState &s) {
   if (s.dominating_set.size() + extra >= s.min_dominating_set.size()) {
     return;
   }
-  for (int c : s.num_choice) {
-    if (c == 0) return;
+  for (int i = 0; i < n; ++i) {
+    if (!isDeleted[i] && s.num_choice[i] == 0) return;
   }
 
   //try vertex[level] as not included
@@ -595,7 +595,7 @@ int Graph::centersReduceAndRecurse(int k) {
           }
         }
       }
-      s.k = MAX_INT;
+      s.k = k;
       s.min_dominating_set.clear();
       for (int i = 0; i < n; ++i) {
         if (!Gi.isDeleted[i]) {
@@ -603,17 +603,6 @@ int Graph::centersReduceAndRecurse(int k) {
         }
       }
       s.num_undominated_vertices = n - removed;
-      /*for (int i : Gi.dominatingSet) {
-        for (int j = 0; j < n; ++j) {
-          if (!Gi.isDeleted[j] && Gi.adjMatrix[i][j] != -1) {
-            s.num_reds[j]++;
-            s.num_choice[j]++;
-            if (s.num_reds[j] == 1) {
-              s.num_undominated_vertices--;
-            }
-          }
-        }
-      }*/
       for (int i = 0; i < n; ++i) {
         if (!Gi.isDeleted[i] && Gi.isWhite[i]) {
           s.num_undominated_vertices--;
@@ -625,6 +614,8 @@ int Graph::centersReduceAndRecurse(int k) {
       Gi.RecursiveOptimalDominatingSetWithDeletion(s);
       centers = s.min_dominating_set;
       //cout << "precalc dom set:" << Gi.dominatingSet.size() << endl;
+      //cout << "centers before:";
+      //printVec(centers);
       for (int d : Gi.dominatingSet) {
         centers.push_back(d);
       }
@@ -634,7 +625,10 @@ int Graph::centersReduceAndRecurse(int k) {
     }
 
     if (debug) {
-      cout << "m=" << m << " csize=" << centers.size() << endl;
+      //cout << "centers after:";
+      //printVec(centers);
+      cout << "m=" << m << " csize=" << centers.size() << " removed:" << removed << endl;
+
     }
     if (centers.size() <= k) {
       int score = evalKCenter(centers);
@@ -678,11 +672,12 @@ int Graph::centersReduceAndRecurseBin(int k) {
       }
     }
     Gi.ReduceGraph();
+    cout << '.';
     int removed = 0;
     for (bool b : Gi.isDeleted) {
       if (b) removed++;
     }
-    cout << "removed:" << removed << endl;
+    //cout << "removed:" << removed << " dom_size:" << Gi.dominatingSet.size()<< endl;
     vector<int> centers;
     if (removed < n) {
       RecursiveState s(n);
@@ -705,8 +700,20 @@ int Graph::centersReduceAndRecurseBin(int k) {
           s.min_dominating_set.push_back(i);
         }
       }
+      s.num_undominated_vertices = n - removed;
+      for (int i = 0; i < n; ++i) {
+        if (!Gi.isDeleted[i] && Gi.isWhite[i]) {
+          s.num_undominated_vertices--;
+          s.num_reds[i]++;
+          s.num_choice[i]++;
+        }
+      }
+      //cout << "min dom set" << s.min_dominating_set.size() << endl;
       Gi.RecursiveOptimalDominatingSetWithDeletion(s);
       centers = s.min_dominating_set;
+      //cout << "precalc dom set:" << Gi.dominatingSet.size() << endl;
+      //cout << "centers before:";
+      //printVec(centers);
       for (int d : Gi.dominatingSet) {
         centers.push_back(d);
       }
@@ -714,8 +721,9 @@ int Graph::centersReduceAndRecurseBin(int k) {
     else {
       centers = Gi.dominatingSet;
     }
+
     if (debug) {
-      cout << "m=" << m << " csize=" << centers.size() << " c=" << c << endl;
+      cout << "m=" << m << " csize=" << centers.size() << " c=" << c << " removed with preproc:" << removed << endl;
     }
 
     if (centers.size() > k) {
