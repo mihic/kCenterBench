@@ -130,7 +130,7 @@ int main(int argc, const char * argv[])
     }
     else if (method == "reducebin") {
       if (debug) {
-        cout << "Bruteforcing (reduction) " << k << "-center" << endl;
+        cout << "Bruteforcing (reduction - bin) " << k << "-center" << endl;
       }
       score = g.centersReduceAndRecurseBin(k);
     }

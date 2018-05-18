@@ -540,20 +540,176 @@ bool Graph::GraphReductionRule1(int v) {
   return false;
 }
 
+bool Graph::GraphReductionRule2(int v, int w) {
+  if (isDeleted[v] || isDeleted[w])return false;
+  set<int> exit;
+  set<int> guard;
+  set<int> prison;
+  set<int> Nvw;
+  set<int> Nv;
+  set<int> Nw;
+
+  //populate 'hoods
+  for (int i = 0; i < n; ++i) {
+    if (!isDeleted[i]) {
+      if (adjMatrix[v][i] != -1) {
+        Nvw.emplace(i);
+        Nv.emplace(i);
+      }
+      if (adjMatrix[w][i] != -1) {
+        Nvw.emplace(i);
+        Nw.emplace(i);
+      }
+    }
+  }
+
+  //populate exit
+  for (int u : Nvw) {
+    for (int i = 0; i < n; ++i) {
+      if (i != v && i != w && i != u && !isDeleted[i] && Nvw.count(i) == 0 && adjMatrix[u][i] != -1) {
+        exit.emplace(u);
+        break;
+      }
+    }
+  }
+
+  //populate guard
+  for (int u : Nvw) {
+    if (exit.count(u) == 0) {
+      for (int i = 0; i < n; ++i) {
+        if (i != v && i != w && i != u && adjMatrix[u][i] != -1 && !isDeleted[i] && exit.count(i) != 0) {
+          guard.emplace(u);
+          break;
+        }
+      }
+    }
+  }
+
+  //populate prison
+  for (int u : Nvw) {
+    if (exit.count(u) == 0 && guard.count(u) == 0) {
+      prison.emplace(u);
+    }
+  }
+
+  //apply rule 2
+
+  set<int> blackPrisoners;
+  for (int p : prison) {
+    if (!isWhite[p]) {
+      blackPrisoners.emplace(p);
+    }
+  }
+  // check condition 
+  // Suppose that blackprisoners cannot be dominated
+  // by a single vertex from Nguard(v,w) U Nprison(v,w).
+  for (int u : guard) {
+    bool u_dominates = true;
+    for (int p : blackPrisoners) {
+      if (adjMatrix[u][p] == -1) {
+        u_dominates = false;
+        break;
+      }
+    }
+    if (u_dominates) return false;
+  }
+  for (int u : prison) {
+    bool u_dominates = true;
+    for (int p : blackPrisoners) {
+      if (adjMatrix[u][p] == -1) {
+        u_dominates = false;
+        break;
+      }
+    }
+    if (u_dominates) return false;
+  }
+
+
+  bool vIsGood = includes(Nv.begin(), Nv.end(), blackPrisoners.begin(), blackPrisoners.end());
+  bool wIsGood = includes(Nw.begin(), Nw.end(), blackPrisoners.begin(), blackPrisoners.end());
+
+  if (vIsGood && wIsGood) { // either v or w are optimal, decision not possible yet
+    // TODO
+    // create gadgets to postpone the decision
+    //return true;
+    return false;
+  }
+  else if (vIsGood) { //v good, w bad
+    dominatingSet.push_back(v);
+    isDeleted[v] = true;
+    for (int u : Nv) {
+      isWhite[u] = true;
+    }
+    for (int u : prison) {
+      isDeleted[u] = true;
+    }
+    for (int u : guard) {
+      if (Nv.count(u) != 0) {
+        isDeleted[u] = true;
+      }
+    }
+    return true;
+  }
+  else if (wIsGood) { // v bad, w good
+    dominatingSet.push_back(w);
+    isDeleted[w] = true;
+    for (int u : Nw) {
+      isWhite[u] = true;
+    }
+    for (int u : prison) {
+      isDeleted[u] = true;
+    }
+    for (int u : guard) {
+      if (Nw.count(u) != 0) {
+        isDeleted[u] = true;
+      }
+    }
+    return true;
+  }
+  else {           // v bad, w bad
+    dominatingSet.push_back(v);
+    dominatingSet.push_back(w);
+    isDeleted[v] = true;
+    isDeleted[w] = true;
+    for (int u : Nvw) {
+      isWhite[u] = true;
+    }
+    for (int u : prison) {
+      isDeleted[u] = true;
+    }
+    for (int u : guard) {
+      isDeleted[u] = true;
+
+    }
+    return true;
+  }
+  return false;
+}
+
+
 void Graph::ReduceGraph() {
 
   isWhite = vector<bool>(n, false);
   bool done = false;
-  while (!done) {
-    done = true;
-    for (int i = 0; i < n; ++i) {
-      if (GraphReductionRule1(i)) {
-        done = false;
+while (!done) {
+  done = true;
+  for (int i = 0; i < n && done; ++i) {
+    if (GraphReductionRule1(i)) {
+      done = false;
+    }
+  }
+  if (done) {
+    for (int i = 0; i < n && done; ++i) {
+      for (int j = i + 1; j < n && done; ++j) {
+        if (GraphReductionRule2(i, j)) {
+          done = false;
+        }
       }
     }
   }
-  //cout << "done, dom set so far" << endl;
-  //printVec(dominatingSet);
+}
+        //cout << "done, dom set so far" << endl;
+        //printVec(dominatingSet);
 }
 
 int Graph::centersReduceAndRecurse(int k) {
@@ -575,6 +731,7 @@ int Graph::centersReduceAndRecurse(int k) {
       }
     }
     Gi.ReduceGraph();
+    cout << '.';
     int removed = 0;
     for (bool b : Gi.isDeleted) {
       if (b) removed++;

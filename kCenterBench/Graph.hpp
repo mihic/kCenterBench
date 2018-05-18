@@ -89,6 +89,8 @@ public:
 
   bool GraphReductionRule1(int v);
 
+  bool GraphReductionRule2(int v, int u);
+
   void ReduceGraph();
 
   int centersReduceAndRecurse(int k);
