@@ -8,7 +8,7 @@
     },
     {
       "Id": "cc17ccb0-7795-4618-a9fe-7f9d57db128a",
-      "Command": "-c 4"
+      "Command": "-c 3"
     },
     {
       "Id": "7f7151a3-c997-47d9-8901-4b03e83002a4",
@@ -20,7 +20,7 @@
     },
     {
       "Id": "b3ca51ea-0940-4a0c-9af5-a4bb1969f17a",
-      "Command": "-i samples/pmed/pmed1.txt"
+      "Command": "-i samples/pmed/pmed2.txt"
     },
     {
       "Id": "d672fc5a-b39e-46ab-80b2-a0053af65bd7",

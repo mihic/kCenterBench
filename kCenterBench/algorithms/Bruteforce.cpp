@@ -731,7 +731,7 @@ int Graph::centersReduceAndRecurse(int k) {
       }
     }
     Gi.ReduceGraph();
-    cout << '.';
+    //cout << '.';
     int removed = 0;
     for (bool b : Gi.isDeleted) {
       if (b) removed++;
@@ -829,7 +829,7 @@ int Graph::centersReduceAndRecurseBin(int k) {
       }
     }
     Gi.ReduceGraph();
-    cout << '.';
+    //cout << '.';
     int removed = 0;
     for (bool b : Gi.isDeleted) {
       if (b) removed++;
