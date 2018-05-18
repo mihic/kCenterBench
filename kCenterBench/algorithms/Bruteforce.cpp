@@ -387,15 +387,15 @@ void Graph::RecursiveOptimalDominatingSet(RecursiveState &s) {
 }
 
 void Graph::RecursiveOptimalDominatingSetWithDeletion(RecursiveState &s) {
+  if (s.level > s.n) {
+    cout << "That should not have happened" << endl;
+    exit(-1);
+  }
 
   if (aliveNodes.count(s.level) == 0) {
     s.level++;
     RecursiveOptimalDominatingSetWithDeletion(s);
     s.level--;
-    return;
-  }
-  if (s.level > s.n) {
-    cout << "That should not have happened" << endl;
     return;
   }
 
@@ -423,9 +423,6 @@ void Graph::RecursiveOptimalDominatingSetWithDeletion(RecursiveState &s) {
   }
   if (s.dominating_set.size() + extra >= s.min_dominating_set.size()) {
     return;
-  }
-  for (int i : aliveNodes) {
-    if (s.num_choice[i] == 0) return;
   }
   for (int i : aliveNodes) {
     if (s.num_choice[i] == 0) return;
