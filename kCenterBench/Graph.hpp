@@ -23,10 +23,15 @@ public:
   vector<vector<int>> adjMatrix;
   vector<vector<int>> shortestPaths;
   vector<bool> isWhite;
-  vector<bool> isDeleted;
+  // vector<bool> isDeleted;
+  set<int> aliveNodes;
   vector<int> dominatingSet;
   int n;
-  Graph(int a) : adjMatrix(a, vector<int>(a, -1)), n(a),isDeleted(a,false) {}
+  Graph(int a) : adjMatrix(a, vector<int>(a, -1)), n(a) {
+    for (int i = 0; i < a; ++i) {
+      aliveNodes.emplace(i);
+    }
+  }
 
   Graph() {
 
