@@ -552,11 +552,11 @@ bool Graph::GraphReductionRule2(int v, int w) {
   //populate 'hoods
   for (int i = 0; i < n; ++i) {
     if (!isDeleted[i]) {
-      if (adjMatrix[v][i] != -1) {
+      if (i != v && adjMatrix[v][i] != -1) {
         Nvw.emplace(i);
         Nv.emplace(i);
       }
-      if (adjMatrix[w][i] != -1) {
+      if (i != w && adjMatrix[w][i] != -1) {
         Nvw.emplace(i);
         Nw.emplace(i);
       }
@@ -587,7 +587,7 @@ bool Graph::GraphReductionRule2(int v, int w) {
 
   //populate prison
   for (int u : Nvw) {
-    if (exit.count(u) == 0 && guard.count(u) == 0) {
+    if (exit.count(u) == 0 && guard.count(u) == 0 && u!=v && u!=w) {
       prison.emplace(u);
     }
   }
@@ -600,6 +600,7 @@ bool Graph::GraphReductionRule2(int v, int w) {
       blackPrisoners.emplace(p);
     }
   }
+  if (blackPrisoners.size() == 0)return false;
   // check condition 
   // Suppose that blackprisoners cannot be dominated
   // by a single vertex from Nguard(v,w) U Nprison(v,w).
@@ -624,17 +625,55 @@ bool Graph::GraphReductionRule2(int v, int w) {
     if (u_dominates) return false;
   }
 
+  // then they must be dominated by {v,w}
 
   bool vIsGood = includes(Nv.begin(), Nv.end(), blackPrisoners.begin(), blackPrisoners.end());
   bool wIsGood = includes(Nw.begin(), Nw.end(), blackPrisoners.begin(), blackPrisoners.end());
 
   if (vIsGood && wIsGood) { // either v or w are optimal, decision not possible yet
-    // TODO
-    // create gadgets to postpone the decision
-    //return true;
-    return false;
+
+    if (debug) {
+      cout << "doing rule 1.1" << endl;
+    }
+    //add two new vertices
+    adjMatrix.push_back(vector<int>(n + 2, -1));
+    adjMatrix.push_back(vector<int>(n + 2, -1));
+    for (int i = 0; i < n; ++i) {
+      if (i == v || i == w) {
+        adjMatrix[i].push_back(0);
+      }
+      else {
+        adjMatrix[i].push_back(-1);
+      }
+    }
+
+    adjMatrix[n][v] = 0;
+    adjMatrix[n][w] = 0;
+    adjMatrix[n + 1][v] = 0;
+    adjMatrix[n + 1][w] = 0;
+
+    isDeleted.push_back(false);
+    isDeleted.push_back(false);
+    isWhite.push_back(true);
+    isWhite.push_back(true);
+
+    n += 2;
+
+    for (int u : guard) {
+      if (Nv.count(u) != 0 && Nw.count(u) != 0) {
+        isDeleted[u] = true;
+      }
+    }
+
+    for (int u : prison) {
+      isDeleted[u] = true;
+    }
+    return true;
   }
   else if (vIsGood) { //v good, w bad
+    if (debug) {
+      cout << "doing rule 1.2" << endl;
+    }
     dominatingSet.push_back(v);
     isDeleted[v] = true;
     for (int u : Nv) {
@@ -651,6 +690,9 @@ bool Graph::GraphReductionRule2(int v, int w) {
     return true;
   }
   else if (wIsGood) { // v bad, w good
+    if (debug) {
+      cout << "doing rule 1.3" << endl;
+    }
     dominatingSet.push_back(w);
     isDeleted[w] = true;
     for (int u : Nw) {
@@ -667,6 +709,9 @@ bool Graph::GraphReductionRule2(int v, int w) {
     return true;
   }
   else {           // v bad, w bad
+    //if (debug) {
+    //cout << "doing rule 2" << endl;
+    //}
     dominatingSet.push_back(v);
     dominatingSet.push_back(w);
     isDeleted[v] = true;
@@ -691,25 +736,82 @@ void Graph::ReduceGraph() {
 
   isWhite = vector<bool>(n, false);
   bool done = false;
-while (!done) {
-  done = true;
-  for (int i = 0; i < n && done; ++i) {
-    if (GraphReductionRule1(i)) {
-      done = false;
-    }
-  }
-  if (done) {
+  while (!done) {
+    done = true;
     for (int i = 0; i < n && done; ++i) {
-      for (int j = i + 1; j < n && done; ++j) {
-        if (GraphReductionRule2(i, j)) {
-          done = false;
+      if (GraphReductionRule1(i)) {
+        done = false;
+      }
+    }
+    if (done) {
+      for (int i = 0; i < n && done; ++i) {
+        for (int j = i + 1; j < n && done; ++j) {
+          if (GraphReductionRule2(i, j)) {
+            done = false;
+          }
         }
       }
     }
   }
+  //cout << "done, dom set so far" << endl;
+  //printVec(dominatingSet);
 }
-        //cout << "done, dom set so far" << endl;
-        //printVec(dominatingSet);
+
+vector<int> ReduceAndRecurse(Graph Gi, int k) {
+  Gi.ReduceGraph();
+  //cout << '.';
+  int remaining_nodes = 0;
+  for (bool b : Gi.isDeleted) {
+    if (!b) remaining_nodes++;
+  }
+  if (debug) {
+    cout << "nodes after reduction: " << remaining_nodes << '/' << Gi.n << endl;
+  }
+
+  vector<int> centers;
+  if (remaining_nodes > 0) {
+    RecursiveState s(Gi.n);
+    for (int i = 0; i < Gi.n; ++i) {
+      if (!Gi.isDeleted[i]) {
+        for (int j = 0; j < Gi.n; ++j) {
+          if (!Gi.isDeleted[j] && Gi.adjMatrix[i][j] != -1) {
+            s.num_choice[i]++;
+          }
+        }
+        if (s.num_choice[i] > s.delta) {
+          s.delta = s.num_choice[i];
+        }
+      }
+    }
+    s.k = k;
+    s.min_dominating_set.clear();
+    for (int i = 0; i < Gi.n; ++i) {
+      if (!Gi.isDeleted[i]) {
+        s.min_dominating_set.push_back(i);
+      }
+    }
+    s.num_undominated_vertices = remaining_nodes;
+    for (int i = 0; i < Gi.n; ++i) {
+      if (!Gi.isDeleted[i] && Gi.isWhite[i]) {
+        s.num_undominated_vertices--;
+        s.num_reds[i]++;
+        s.num_choice[i]++;
+      }
+    }
+    //cout << "min dom set" << s.min_dominating_set.size() << endl;
+    Gi.RecursiveOptimalDominatingSetWithDeletion(s);
+    centers = s.min_dominating_set;
+    //cout << "precalc dom set:" << Gi.dominatingSet.size() << endl;
+    //cout << "centers before:";
+    //printVec(centers);
+    for (int d : Gi.dominatingSet) {
+      centers.push_back(d);
+    }
+  }
+  else {
+    centers = Gi.dominatingSet;
+  }
+  return centers;
 }
 
 int Graph::centersReduceAndRecurse(int k) {
@@ -730,61 +832,13 @@ int Graph::centersReduceAndRecurse(int k) {
         }
       }
     }
-    Gi.ReduceGraph();
-    //cout << '.';
-    int removed = 0;
-    for (bool b : Gi.isDeleted) {
-      if (b) removed++;
-    }
-    //cout << "removed:" << removed << " dom_size:" << Gi.dominatingSet.size()<< endl;
-    vector<int> centers;
-    if (removed < n) {
-      RecursiveState s(n);
-      for (int i = 0; i < n; ++i) {
-        if (!Gi.isDeleted[i]) {
-          for (int j = 0; j < n; ++j) {
-            if (!Gi.isDeleted[j] && Gi.adjMatrix[i][j] != -1) {
-              s.num_choice[i]++;
-            }
-          }
-          if (s.num_choice[i] > s.delta) {
-            s.delta = s.num_choice[i];
-          }
-        }
-      }
-      s.k = k;
-      s.min_dominating_set.clear();
-      for (int i = 0; i < n; ++i) {
-        if (!Gi.isDeleted[i]) {
-          s.min_dominating_set.push_back(i);
-        }
-      }
-      s.num_undominated_vertices = n - removed;
-      for (int i = 0; i < n; ++i) {
-        if (!Gi.isDeleted[i] && Gi.isWhite[i]) {
-          s.num_undominated_vertices--;
-          s.num_reds[i]++;
-          s.num_choice[i]++;
-        }
-      }
-      //cout << "min dom set" << s.min_dominating_set.size() << endl;
-      Gi.RecursiveOptimalDominatingSetWithDeletion(s);
-      centers = s.min_dominating_set;
-      //cout << "precalc dom set:" << Gi.dominatingSet.size() << endl;
-      //cout << "centers before:";
-      //printVec(centers);
-      for (int d : Gi.dominatingSet) {
-        centers.push_back(d);
-      }
-    }
-    else {
-      centers = Gi.dominatingSet;
-    }
+    
+    vector<int> centers = ReduceAndRecurse(Gi, MAX_INT);
 
     if (debug) {
       //cout << "centers after:";
       //printVec(centers);
-      cout << "m=" << m << " csize=" << centers.size() << " removed:" << removed << endl;
+      cout << "m=" << m << " csize=" << centers.size() << "new n" << Gi.n << endl;
 
     }
     if (centers.size() <= k) {
@@ -828,59 +882,10 @@ int Graph::centersReduceAndRecurseBin(int k) {
         }
       }
     }
-    Gi.ReduceGraph();
-    //cout << '.';
-    int removed = 0;
-    for (bool b : Gi.isDeleted) {
-      if (b) removed++;
-    }
-    //cout << "removed:" << removed << " dom_size:" << Gi.dominatingSet.size()<< endl;
-    vector<int> centers;
-    if (removed < n) {
-      RecursiveState s(n);
-      for (int i = 0; i < n; ++i) {
-        if (!Gi.isDeleted[i]) {
-          for (int j = 0; j < n; ++j) {
-            if (!Gi.isDeleted[j] && Gi.adjMatrix[i][j] != -1) {
-              s.num_choice[i]++;
-            }
-          }
-          if (s.num_choice[i] > s.delta) {
-            s.delta = s.num_choice[i];
-          }
-        }
-      }
-      s.k = k;
-      s.min_dominating_set.clear();
-      for (int i = 0; i < n; ++i) {
-        if (!Gi.isDeleted[i]) {
-          s.min_dominating_set.push_back(i);
-        }
-      }
-      s.num_undominated_vertices = n - removed;
-      for (int i = 0; i < n; ++i) {
-        if (!Gi.isDeleted[i] && Gi.isWhite[i]) {
-          s.num_undominated_vertices--;
-          s.num_reds[i]++;
-          s.num_choice[i]++;
-        }
-      }
-      //cout << "min dom set" << s.min_dominating_set.size() << endl;
-      Gi.RecursiveOptimalDominatingSetWithDeletion(s);
-      centers = s.min_dominating_set;
-      //cout << "precalc dom set:" << Gi.dominatingSet.size() << endl;
-      //cout << "centers before:";
-      //printVec(centers);
-      for (int d : Gi.dominatingSet) {
-        centers.push_back(d);
-      }
-    }
-    else {
-      centers = Gi.dominatingSet;
-    }
+    vector<int> centers = ReduceAndRecurse(Gi, k);
 
     if (debug) {
-      cout << "m=" << m << " csize=" << centers.size() << " c=" << c << " removed with preproc:" << removed << endl;
+      cout << "m=" << m << " csize=" << centers.size() << " c=" << "new n: " << Gi.n <<  endl;
     }
 
     if (centers.size() > k) {

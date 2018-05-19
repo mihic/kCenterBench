@@ -1,6 +1,26 @@
 
 using namespace std;
 
+class RecursiveState {
+public:
+  vector<int> dominating_set;
+  vector<int> min_dominating_set;
+  int num_undominated_vertices;
+  vector<int> num_reds;
+  vector<int> num_choice;
+  int delta;
+  int n;
+  int level;
+  int k;
+  RecursiveState(int n) : min_dominating_set(vector<int>(n)), num_undominated_vertices(n),
+    num_reds(vector<int>(n, 0)),
+    num_choice(vector<int>(n)), delta(0), level(0), n(n) {
+    for (int i = 0; i < n; ++i) {
+      min_dominating_set[i] = i;
+    }
+  }
+};
+
 class Graph {
 public:
   //bruteforce globals
@@ -63,25 +83,7 @@ public:
 
 
 
-  class RecursiveState {
-  public:
-    vector<int> dominating_set;
-    vector<int> min_dominating_set;
-    int num_undominated_vertices;
-    vector<int> num_reds;
-    vector<int> num_choice;
-    int delta;
-    int n;
-    int level;
-    int k;
-    RecursiveState(int n) : min_dominating_set(vector<int>(n)), num_undominated_vertices(n),
-                            num_reds(vector<int>(n,0)),
-                            num_choice(vector<int>(n)),delta(0),level(0),n(n){
-      for (int i = 0; i < n; ++i) {
-        min_dominating_set[i] = i;
-      }
-    }
-  };
+
 
   void RecursiveOptimalDominatingSet(RecursiveState & s);
 
