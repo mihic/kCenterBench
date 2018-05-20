@@ -587,7 +587,7 @@ bool Graph::GraphReductionRule2(int v, int w) {
 
   //populate prison
   for (int u : Nvw) {
-    if (exit.count(u) == 0 && guard.count(u) == 0 && u!=v && u!=w) {
+    if (exit.count(u) == 0 && guard.count(u) == 0 && u != v && u != w) {
       prison.emplace(u);
     }
   }
@@ -709,9 +709,9 @@ bool Graph::GraphReductionRule2(int v, int w) {
     return true;
   }
   else {           // v bad, w bad
-    //if (debug) {
-    //cout << "doing rule 2" << endl;
-    //}
+    if (debug) {
+    cout << "doing rule 2" << endl;
+    }
     dominatingSet.push_back(v);
     dominatingSet.push_back(w);
     isDeleted[v] = true;
@@ -733,7 +733,6 @@ bool Graph::GraphReductionRule2(int v, int w) {
 
 
 void Graph::ReduceGraph() {
-
   isWhite = vector<bool>(n, false);
   bool done = false;
   while (!done) {
@@ -765,9 +764,8 @@ vector<int> ReduceAndRecurse(Graph Gi, int k) {
     if (!b) remaining_nodes++;
   }
   if (debug) {
-    cout << "nodes after reduction: " << remaining_nodes << '/' << Gi.n << endl;
+    cout << "nodes after reduction: " << remaining_nodes << '/' << Gi.n << '(' << 100-(remaining_nodes*100/Gi.n)<< "% removed)" << endl;
   }
-
   vector<int> centers;
   if (remaining_nodes > 0) {
     RecursiveState s(Gi.n);
@@ -798,12 +796,8 @@ vector<int> ReduceAndRecurse(Graph Gi, int k) {
         s.num_choice[i]++;
       }
     }
-    //cout << "min dom set" << s.min_dominating_set.size() << endl;
     Gi.RecursiveOptimalDominatingSetWithDeletion(s);
     centers = s.min_dominating_set;
-    //cout << "precalc dom set:" << Gi.dominatingSet.size() << endl;
-    //cout << "centers before:";
-    //printVec(centers);
     for (int d : Gi.dominatingSet) {
       centers.push_back(d);
     }
@@ -832,14 +826,13 @@ int Graph::centersReduceAndRecurse(int k) {
         }
       }
     }
-    
+
     vector<int> centers = ReduceAndRecurse(Gi, MAX_INT);
 
     if (debug) {
       //cout << "centers after:";
       //printVec(centers);
       cout << "m=" << m << " csize=" << centers.size() << "new n" << Gi.n << endl;
-
     }
     if (centers.size() <= k) {
       int score = evalKCenter(centers);
@@ -885,7 +878,7 @@ int Graph::centersReduceAndRecurseBin(int k) {
     vector<int> centers = ReduceAndRecurse(Gi, k);
 
     if (debug) {
-      cout << "m=" << m << " csize=" << centers.size() << " c=" << "new n: " << Gi.n <<  endl;
+      cout << "m=" << m << " csize=" << centers.size() << " c=" << c << " new n: " << Gi.n << endl;
     }
 
     if (centers.size() > k) {

@@ -7,10 +7,6 @@
       "Command": "-d"
     },
     {
-      "Id": "cc17ccb0-7795-4618-a9fe-7f9d57db128a",
-      "Command": "-c 3"
-    },
-    {
       "Id": "7f7151a3-c997-47d9-8901-4b03e83002a4",
       "Command": "-f pmed"
     },
@@ -20,11 +16,15 @@
     },
     {
       "Id": "b3ca51ea-0940-4a0c-9af5-a4bb1969f17a",
-      "Command": "-i samples/pmed/pmed1.txt"
+      "Command": "-i samples/pmed/pmed8.txt"
     },
     {
       "Id": "d672fc5a-b39e-46ab-80b2-a0053af65bd7",
       "Command": "-i samples/pmed/pmed38.txt"
+    },
+    {
+      "Id": "aaec6d43-e4bd-48a4-a364-3fb412209b44",
+      "Command": "-i samples/breaking.pmed"
     },
     {
       "Id": "cf3c620c-0256-4d6b-bd04-bd52663c9bd7",
@@ -81,6 +81,10 @@
     {
       "Id": "464bd2fe-d562-41c5-aa28-2c14f92090b7",
       "Command": "-m CDSPh"
+    },
+    {
+      "Id": "4362f043-d419-483e-a7f9-034636f14b77",
+      "Command": "-c 3"
     }
   ]
 }
