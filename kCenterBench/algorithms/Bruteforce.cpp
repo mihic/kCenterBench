@@ -759,7 +759,7 @@ void Graph::ReduceGraph() {
   //printVec(dominatingSet);
 }
 
-vector<int> ReduceAndRecurse(Graph Gi, int k) {
+vector<int> ReduceAndRecurse(Graph &Gi, int k) {
   Gi.ReduceGraph();
   //cout << '.';
   int remaining_nodes = 0;
