@@ -63,6 +63,7 @@ public:
 
   set<int> RadnomMaximalIndependentSet();
   set<int> GreedyMaximalIndependentSet();
+  set<int> ScoreBacktrackingDominatingSet();
   set<int> ScoreDynamicDominatingSet();
   set<int> CombinatorialMinMaximalIndependentSet(int k);
   void BruteForceIndependentSet(vector<int>& vec, set<int>& result, int i, int d);

@@ -175,20 +175,78 @@ set<int> Graph::ScoreDynamicDominatingSet() {
     }
     if (!added) {
       for (int j = 0; j < n; ++j) {
-        if (adjMatrix[minScoreIdx][j] != -1 && coverageCount[j] > 0 && minScoreIdx != j) {
+        if (adjMatrix[minScoreIdx][j] != -1) {
           coverageCount[j]--;
-          scores[j]++;
+          for (int k = 0; k < n; k++) {
+            if (adjMatrix[j][k] != -1) {
+              scores[j]++;
+            }
+          }
         }
       }
     }
     scores[minScoreIdx] = MAX_INT;
   }
-  //cout << "DS size: " << DS.size()<<endl;
+  cout << "DS size: " << DS.size() << endl;
   cout << "DS members: \n";
-  vector<int>tmp(DS.begin(),DS.end());
+  vector<int>tmp(DS.begin(), DS.end());
   printVec(tmp);
   //printVec(scores);
   //printVec(coverageCount);
+  return DS;
+}
+
+set<int> Graph::ScoreBacktrackingDominatingSet() {
+  vector<int> coverageCount(n);
+  for (int i = 0; i < n; ++i) {
+    for (int j = 0; j < n; ++j) {
+      if (adjMatrix[i][j] != -1) {
+        coverageCount[i]++;
+      }
+    }
+  }
+  vector<int> scores = coverageCount;
+
+  set<int> DS;
+  for (int i = 0; i < n; ++i) {
+    int minScore = MAX_INT;
+    int minScoreIdx = -1;
+    for (int j = 0; j < n; ++j) {
+      if (scores[j] < minScore) {
+        minScore = scores[j];
+        minScoreIdx = j;
+      }
+    }
+    if (coverageCount[minScoreIdx] == 1) {
+      DS.emplace(minScoreIdx);
+    }
+    else {
+      for (int j = 0; j < n; ++j) {
+        if (adjMatrix[minScoreIdx][j] != -1) {
+          int covered_j = coverageCount[j];
+          if (covered_j > 1) {
+            scores[j]++;
+            coverageCount[j]--;
+          }
+          else if (covered_j == 1) {
+            for (int k = j - 1; k >= 0; k--) {
+              if (adjMatrix[minScoreIdx][k] != -1) {
+                scores[k]--;
+
+                coverageCount[k]++;
+              }
+            }
+            DS.emplace(minScoreIdx);
+            break;
+          }
+          else {
+            scores[j]++;
+          }
+        }
+      }
+    }
+    scores[minScoreIdx] = MAX_INT;
+  }
   return DS;
 }
 

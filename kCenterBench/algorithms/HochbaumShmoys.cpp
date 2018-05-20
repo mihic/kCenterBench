@@ -51,7 +51,7 @@ int Graph::centersHochbaumShmoysBin(int k) {
   set<int> centers;
   vector<int> VedgeLengths(edgeLengths.begin(), edgeLengths.end());
   while (b - a > 1) {
-    int c = (a + b) / 2;
+    c = (a + b) / 2;
     int m = VedgeLengths[c];
     Graph Gi(n);
     for (int i = 0; i < n; ++i) {
@@ -176,10 +176,9 @@ int Graph::centersBottleneckScore(int k) {
         }
       }
     }
-    cout << "m:" << m;
-    set<int> centers = Gi.ScoreDynamicDominatingSet();
+    cout << "m:" << m << endl;
+    set<int> centers = Gi.ScoreBacktrackingDominatingSet();
     if (centers.size() <= k) {
-      cout << "been here all along\n";
       vector<int> Vcenters(centers.begin(), centers.end());
       int score = evalKCenter(Vcenters);
       if (debug) {

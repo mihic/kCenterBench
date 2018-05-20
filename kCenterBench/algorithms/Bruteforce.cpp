@@ -148,7 +148,7 @@ int Graph::centersBottleneckBruteForceBin(int k) {
   //OPTIMIZE -- only add new edges to Gi
   int a = 0;
   int b = edgeLengths.size();
-  int c, s;
+  int c;
   set<int> centers;
   vector<int> VedgeLengths(edgeLengths.begin(), edgeLengths.end());
   while (b - a > 1) {
@@ -164,9 +164,8 @@ int Graph::centersBottleneckBruteForceBin(int k) {
       }
     }
     centers = Gi.CombinatorialMinMaximalIndependentSet(k);
-    int s = centers.size();
     if (debug) {
-      cout << "m=" << m << " csize=" << s << " c=" << c << endl;
+      cout << "m=" << m << " csize=" << centers.size() << " c=" << c << endl;
     }
 
     if (centers.size() > k) {
