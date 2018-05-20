@@ -24,7 +24,7 @@
     },
     {
       "Id": "aaec6d43-e4bd-48a4-a364-3fb412209b44",
-      "Command": "-i samples/breaking.pmed"
+      "Command": "-i samples/breaking2.pmed"
     },
     {
       "Id": "cf3c620c-0256-4d6b-bd04-bd52663c9bd7",

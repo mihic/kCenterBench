@@ -356,7 +356,7 @@ void Graph::RecursiveOptimalDominatingSet(RecursiveState &s) {
       s.num_choice[i]++;
     }
   }
-  if (s.level > s.n) {
+    if (s.level > s.n) {
     cout << "That should not have happened";
     exit(-1);
   }
@@ -642,8 +642,10 @@ bool Graph::GraphReductionRule2(int v, int w) {
     for (int i = 0; i < n; ++i) {
       if (i == v || i == w) {
         adjMatrix[i].push_back(0);
+        adjMatrix[i].push_back(0);
       }
       else {
+        adjMatrix[i].push_back(-1);
         adjMatrix[i].push_back(-1);
       }
     }
