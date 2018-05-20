@@ -311,10 +311,7 @@ int Graph::centersRecursiveOptimalDominatingSet(int k) {
 
 
 void Graph::RecursiveOptimalDominatingSet(RecursiveState &s) {
-  if (s.level > s.n) {
-    cout << "That should not have happened";
-    exit(-1);
-  }
+
   if (s.dominating_set.size() > s.k) {
     return;
   }
@@ -359,7 +356,10 @@ void Graph::RecursiveOptimalDominatingSet(RecursiveState &s) {
       s.num_choice[i]++;
     }
   }
-
+  if (s.level > s.n) {
+    cout << "That should not have happened";
+    exit(-1);
+  }
 
   //try vertex[level] as included
 
@@ -393,10 +393,7 @@ void Graph::RecursiveOptimalDominatingSetWithDeletion(RecursiveState &s) {
     s.level--;
     return;
   }
-  if (s.level > s.n) {
-    cout << "That should not have happened";
-    exit(-1);
-  }
+
   if (s.dominating_set.size() > s.k) {
     return;
   }
@@ -442,6 +439,10 @@ void Graph::RecursiveOptimalDominatingSetWithDeletion(RecursiveState &s) {
     }
   }
 
+  if (s.level > s.n) {
+    cout << "That should not have happened";
+    exit(-1);
+  }
 
   //try vertex[level] as included
 
