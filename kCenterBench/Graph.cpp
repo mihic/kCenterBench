@@ -219,6 +219,11 @@ set<int> Graph::ScoreBacktrackingDominatingSet() {
     }
     if (coverageCount[minScoreIdx] == 1) {
       DS.emplace(minScoreIdx);
+      for (int j = 0; j < n; ++j) {
+        if (adjMatrix[minScoreIdx][j] != -1) {
+          coverageCount[j] = 0;
+        }
+      }
     }
     else {
       for (int j = 0; j < n; ++j) {
@@ -232,11 +237,15 @@ set<int> Graph::ScoreBacktrackingDominatingSet() {
             for (int k = j - 1; k >= 0; k--) {
               if (adjMatrix[minScoreIdx][k] != -1) {
                 scores[k]--;
-
                 coverageCount[k]++;
               }
             }
             DS.emplace(minScoreIdx);
+            for (int k = 0; k < n; ++k) {
+              if (adjMatrix[minScoreIdx][k] != -1) {
+                coverageCount[k] = 0;
+              }
+            }
             break;
           }
           else {
