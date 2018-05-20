@@ -68,7 +68,8 @@ def main():
   testpath = "/home/miha/kCenterBench/kCenterBench/main"
   #all_algs = ["greedy","greedyplus","gonzalez1c","gonzalezplus","plesnikdeg","hochbaumshmoys","CDS","CDSh"]
   all_algs = ["bf","reducebin"]
-  graph_types =["csrandom", "grid","scalefree"]
+  #graph_types =["csrandom", "grid","scalefree"]
+  graph_types =["scalefree"]
   densities = [1,0.7,0.5,0.3,0.1,0.01,0.001,0.0001]
   print("algorithm,graph_type,seed,n,density,score,execution_time")
   for graph_type in graph_types:
@@ -97,7 +98,7 @@ def main():
           result = test(testpath,f"{f.name}",alg,timeout)
           if result['status'] == "OK":
             #print(f"{alg:15} on n={n:5}: {result['solution']:6} {result['execution_time']:10} ms")
-            print(f"{alg},{graph_type},42,{n},{density},{result['solution']},{result['execution_time']}")
+            print(f"{alg:{10}},{graph_type:{10}},42,{n},{density},{result['solution']},{result['execution_time']}")
           elif result['status'] == "TIMEOUT":
             #print(f"timeout({timeout}s)")
             print(f"{alg},{graph_type},42,{n},{density},-1,-1")
@@ -107,6 +108,7 @@ def main():
             print(f"stdout:\n{result['stdout']}\nstderr:\n{result['stderr']}\n")
             return
         n = n + 2
+        print();
         f.close()
 if __name__ == '__main__':
   main()
