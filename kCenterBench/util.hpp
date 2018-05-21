@@ -3,6 +3,7 @@
 using namespace std;
 
 #define MAX_INT numeric_limits<int>::max()
+#define LARGE_INT numeric_limits<int>::max()/2
 
 template<typename T>
 void printVec(vector<T> &c) {

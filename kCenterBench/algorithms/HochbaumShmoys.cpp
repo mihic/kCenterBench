@@ -176,9 +176,10 @@ int Graph::centersBottleneckScore(int k) {
         }
       }
     }
-    cout << "m:" << m << endl;
+    
     set<int> centers = Gi.ScoreBacktrackingDominatingSet();
-    if (centers.size() <= k && centers.size()!=0) {
+    //cout << "m:" << m << " csize: " << centers.size() << endl;
+    if (centers.size() <= k) {
       vector<int> Vcenters(centers.begin(), centers.end());
       int score = evalKCenter(Vcenters);
       if (debug) {

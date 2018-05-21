@@ -254,7 +254,7 @@ set<int> Graph::ScoreBacktrackingDominatingSet() {
         }
       }
     }
-    scores[minScoreIdx] = MAX_INT;
+    scores[minScoreIdx] = LARGE_INT;
   }
   return DS;
 }
