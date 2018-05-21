@@ -27,7 +27,7 @@
       "Command": "-i samples/breaking2.pmed"
     },
     {
-      "Id": "cf3c620c-0256-4d6b-bd04-bd52663c9bd7",
+      "Id": "eb4da51e-2490-4e7f-81f0-5eee46e59569",
       "Command": "-i samples/sample50.graph"
     },
     {
@@ -84,7 +84,11 @@
     },
     {
       "Id": "4362f043-d419-483e-a7f9-034636f14b77",
-      "Command": "-c 3"
+      "Command": "-c 2"
+    },
+    {
+      "Id": "c8f237f8-8170-47bd-a1dd-525909c6eb05",
+      "Command": ""
     }
   ]
 }

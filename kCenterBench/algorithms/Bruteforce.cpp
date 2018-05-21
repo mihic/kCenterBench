@@ -786,7 +786,7 @@ vector<int> ReduceAndRecurse(Graph &Gi, int k) {
     s.k = k;
     s.min_dominating_set.clear();
     for (int i = 0; i < Gi.n; ++i) {
-      if (!Gi.isDeleted[i]) {
+      if (!Gi.isDeleted[i] && !Gi.isWhite[i]) {
         s.min_dominating_set.push_back(i);
       }
     }
