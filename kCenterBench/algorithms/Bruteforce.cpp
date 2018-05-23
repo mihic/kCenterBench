@@ -355,7 +355,7 @@ void Graph::RecursiveOptimalDominatingSet(RecursiveState &s) {
       s.num_choice[i]++;
     }
   }
-    if (s.level > s.n) {
+  if (s.level > s.n) {
     cout << "That should not have happened";
     exit(-1);
   }
@@ -386,16 +386,6 @@ void Graph::RecursiveOptimalDominatingSet(RecursiveState &s) {
 }
 
 void Graph::RecursiveOptimalDominatingSetWithDeletion(RecursiveState &s) {
-  if (isDeleted[s.level]) {
-    s.level++;
-    RecursiveOptimalDominatingSetWithDeletion(s);
-    s.level--;
-    return;
-  }
-
-  if (s.dominating_set.size() > s.k) {
-    return;
-  }
   if (s.min_dominating_set.size() <= s.k) {
     return;
   }
@@ -404,6 +394,10 @@ void Graph::RecursiveOptimalDominatingSetWithDeletion(RecursiveState &s) {
     if (s.dominating_set.size() < s.min_dominating_set.size()) {
       s.min_dominating_set = s.dominating_set;
     }
+    return;
+  }
+
+  if (s.dominating_set.size() >= s.k) {
     return;
   }
 
@@ -424,6 +418,13 @@ void Graph::RecursiveOptimalDominatingSetWithDeletion(RecursiveState &s) {
   }
   for (int i = 0; i < n; ++i) {
     if (!isDeleted[i] && s.num_choice[i] == 0) return;
+  }
+
+  if (isDeleted[s.level]) {
+    s.level++;
+    RecursiveOptimalDominatingSetWithDeletion(s);
+    s.level--;
+    return;
   }
 
   //try vertex[level] as not included
@@ -716,7 +717,7 @@ bool Graph::GraphReductionRule2(int v, int w) {
   }
   else {           // v bad, w bad
     if (debug) {
-    cout << "doing rule 2" << endl;
+      cout << "doing rule 2" << endl;
     }
     dominatingSet.push_back(v);
     dominatingSet.push_back(w);
@@ -770,7 +771,7 @@ vector<int> ReduceAndRecurse(Graph &Gi, int k) {
     if (!b) remaining_nodes++;
   }
   if (debug) {
-    cout << "nodes after reduction: " << remaining_nodes << '/' << Gi.n << '(' << 100-(remaining_nodes*100/Gi.n)<< "% removed)" << endl;
+    cout << "nodes after reduction: " << remaining_nodes << '/' << Gi.n << '(' << 100 - (remaining_nodes * 100 / Gi.n) << "% removed)" << endl;
   }
   vector<int> centers;
   if (remaining_nodes > 0) {
