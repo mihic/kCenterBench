@@ -83,12 +83,8 @@
       "Command": "-m CDSPh"
     },
     {
-      "Id": "4362f043-d419-483e-a7f9-034636f14b77",
-      "Command": "-c 2"
-    },
-    {
       "Id": "c8f237f8-8170-47bd-a1dd-525909c6eb05",
-      "Command": ""
+      "Command": "-c 7"
     }
   ]
 }

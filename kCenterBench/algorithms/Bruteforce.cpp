@@ -396,6 +396,10 @@ void Graph::RecursiveOptimalDominatingSetWithDeletion(RecursiveState &s) {
   if (s.dominating_set.size() > s.k) {
     return;
   }
+  if (s.min_dominating_set.size() <= s.k) {
+    return;
+  }
+
   if (s.num_undominated_vertices == 0) {
     if (s.dominating_set.size() < s.min_dominating_set.size()) {
       s.min_dominating_set = s.dominating_set;
@@ -783,7 +787,7 @@ vector<int> ReduceAndRecurse(Graph &Gi, int k) {
         }
       }
     }
-    s.k = k;
+    s.k = k - Gi.dominatingSet.size();
     s.min_dominating_set.clear();
     for (int i = 0; i < Gi.n; ++i) {
       if (!Gi.isDeleted[i] && !Gi.isWhite[i]) {
