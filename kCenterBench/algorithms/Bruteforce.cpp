@@ -410,9 +410,11 @@ void Graph::RecursiveOptimalDominatingSetWithDeletion(RecursiveState &s) {
   //q = x / y;
   //if (q * y < x) ++q;
 
-  int extra = s.num_undominated_vertices / s.degs[current];
+  int delta = s.degs[s.idxs[s.level + 1]];
+
+  int extra = s.num_undominated_vertices / delta;
   //roundup
-  if (s.degs[current] * extra < s.num_undominated_vertices) {
+  if (delta * extra < s.num_undominated_vertices) {
     ++extra;
   }
   if (s.dominating_set.size() + extra > s.k) {
