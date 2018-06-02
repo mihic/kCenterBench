@@ -8,6 +8,8 @@ public:
   int num_undominated_vertices;
   vector<int> num_reds;
   vector<int> num_choice;
+  vector<int> degs;
+  vector<size_t> idxs;
   int delta;
   int n;
   int level;

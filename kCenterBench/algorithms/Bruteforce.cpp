@@ -401,6 +401,8 @@ void Graph::RecursiveOptimalDominatingSetWithDeletion(RecursiveState &s) {
     return;
   }
 
+  int current = s.idxs[s.level];
+
   //hitreje
   //q = (x + y - 1) / y;
 
@@ -408,51 +410,31 @@ void Graph::RecursiveOptimalDominatingSetWithDeletion(RecursiveState &s) {
   //q = x / y;
   //if (q * y < x) ++q;
 
-  int extra = s.num_undominated_vertices / s.delta;
+  int extra = s.num_undominated_vertices / s.degs[current];
   //roundup
-  if (s.delta * extra < s.num_undominated_vertices) {
+  if (s.degs[current] * extra < s.num_undominated_vertices) {
     ++extra;
   }
-  if (s.dominating_set.size() + extra >= s.min_dominating_set.size()) {
+  if (s.dominating_set.size() + extra > s.k) {
+    //cout << "much reduce";
     return;
   }
   for (int i = 0; i < n; ++i) {
     if (!isDeleted[i] && s.num_choice[i] == 0) return;
   }
 
-  if (isDeleted[s.level]) {
+  if (isDeleted[current]) {
     s.level++;
     RecursiveOptimalDominatingSetWithDeletion(s);
     s.level--;
     return;
   }
 
-  //try vertex[level] as not included
-
-  for (int i = 0; i < n; ++i) {
-    if (!isDeleted[i] && adjMatrix[s.level][i] != -1) {
-      s.num_choice[i]--;
-    }
-  }
-  s.level++;
-  RecursiveOptimalDominatingSetWithDeletion(s);
-  s.level--;
-  for (int i = 0; i < n; ++i) {
-    if (!isDeleted[i] && adjMatrix[s.level][i] != -1) {
-      s.num_choice[i]++;
-    }
-  }
-
-  if (s.level > s.n) {
-    cout << "That should not have happened";
-    exit(-1);
-  }
-
   //try vertex[level] as included
 
-  s.dominating_set.push_back(s.level);
+  s.dominating_set.push_back(current);
   for (int i = 0; i < n; ++i) {
-    if (!isDeleted[i] && adjMatrix[s.level][i] != -1) {
+    if (!isDeleted[i] && adjMatrix[current][i] != -1) {
       if (s.num_reds[i] == 0) {
         s.num_undominated_vertices--;
       }
@@ -463,7 +445,7 @@ void Graph::RecursiveOptimalDominatingSetWithDeletion(RecursiveState &s) {
   RecursiveOptimalDominatingSetWithDeletion(s);
   s.level--;
   for (int i = 0; i < n; ++i) {
-    if (!isDeleted[i] && adjMatrix[s.level][i] != -1) {
+    if (!isDeleted[i] && adjMatrix[current][i] != -1) {
       if (s.num_reds[i] == 1) {
         s.num_undominated_vertices++;
       }
@@ -471,6 +453,32 @@ void Graph::RecursiveOptimalDominatingSetWithDeletion(RecursiveState &s) {
     }
   }
   s.dominating_set.pop_back();
+
+
+
+  //try vertex[level] as not included
+
+
+  for (int i = 0; i < n; ++i) {
+    if (!isDeleted[i] && adjMatrix[current][i] != -1) {
+      s.num_choice[i]--;
+    }
+  }
+  s.level++;
+  RecursiveOptimalDominatingSetWithDeletion(s);
+  s.level--;
+  for (int i = 0; i < n; ++i) {
+    if (!isDeleted[i] && adjMatrix[current][i] != -1) {
+      s.num_choice[i]++;
+    }
+  }
+
+  if (s.level > s.n) {
+    cout << "That should not have happened";
+    exit(-1);
+  }
+
+
 }
 
 bool Graph::GraphReductionRule1(int v) {
@@ -763,7 +771,7 @@ void Graph::ReduceGraph() {
   //printVec(dominatingSet);
 }
 
-vector<int> ReduceAndRecurse(Graph &Gi, int k) {
+vector<int> ReduceAndRecurse(Graph &Gi, int k, vector<int> & degs, vector<size_t> & idxs) {
   Gi.ReduceGraph();
   //cout << '.';
   int remaining_nodes = 0;
@@ -783,9 +791,6 @@ vector<int> ReduceAndRecurse(Graph &Gi, int k) {
             s.num_choice[i]++;
           }
         }
-        if (s.num_choice[i] > s.delta) {
-          s.delta = s.num_choice[i];
-        }
       }
     }
     s.k = k - Gi.dominatingSet.size();
@@ -803,6 +808,8 @@ vector<int> ReduceAndRecurse(Graph &Gi, int k) {
         s.num_choice[i]++;
       }
     }
+    s.degs = degs;
+    s.idxs = idxs;
     Gi.RecursiveOptimalDominatingSetWithDeletion(s);
     centers = s.min_dominating_set;
     for (int d : Gi.dominatingSet) {
@@ -834,8 +841,8 @@ int Graph::centersReduceAndRecurse(int k) {
       }
     }
 
-    vector<int> centers = ReduceAndRecurse(Gi, MAX_INT);
-
+    //vector<int> centers = ReduceAndRecurse(Gi, MAX_INT);
+    vector<int> centers(n); //just compile
     if (debug) {
       //cout << "centers after:";
       //printVec(centers);
@@ -875,15 +882,19 @@ int Graph::centersReduceAndRecurseBin(int k) {
     c = (a + b) / 2;
     int m = VedgeLengths[c];
     Graph Gi(n);
+    vector<int> degs(n, 0);
+    vector<size_t> idxs(n);
     for (int i = 0; i < n; ++i) {
+      idxs[i] = i;
       for (int j = 0; j < n; ++j) {
         if (shortestPaths[i][j] <= m) {
           Gi.adjMatrix[i][j] = shortestPaths[i][j];
+          degs[i]++;
         }
       }
     }
-    vector<int> centers = ReduceAndRecurse(Gi, k);
-
+    sort(idxs.begin(), idxs.end(), [&degs](size_t i1, size_t i2) {return degs[i1] > degs[i2]; });
+    vector<int> centers = ReduceAndRecurse(Gi, k, degs, idxs);
     if (debug) {
       cout << "m=" << m << " csize=" << centers.size() << " c=" << c << " new n: " << Gi.n << endl;
     }
