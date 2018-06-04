@@ -6,6 +6,7 @@ bool Graph::Range(int k, int B, bool deg) {
   V = deg ? VbyDeg : oneToN;
   B = 2 * B;
   while (!V.empty()) {
+    if (rangeCenters.size() >= k)return false;
     int v = V.back();
     V.pop_back();
 
@@ -16,6 +17,7 @@ bool Graph::Range(int k, int B, bool deg) {
         V.erase(remove(V.begin(), V.end(), i), V.end());
       }
     }
+
   }
   return rangeCenters.size() <= k;
 }
