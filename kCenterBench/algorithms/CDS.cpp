@@ -50,12 +50,15 @@ int Graph::centersCDS(int k, bool heu, bool plus) {
   sort(Vedge_lengths.begin(), Vedge_lengths.end());
 
   int low = 0;
-  int high = edgeLengths.size();
+  int high = edgeLengths.size()-1;
   int mid = high / 2;
   bestScore = MAX_INT;
   int newScore;
-  while (high - low > 2) {
-    mid = (high + low) / 2;
+  while (high - low > 1) {
+    //mid = (high + low) / 2;
+    mid = (high + low + 1) / 2;
+    //cout << mid;
+    //if (mid == high) return bestScore;
     if (plus) {
       for (int i = 0; i < n; ++i) {
         set<int> newCenters;
