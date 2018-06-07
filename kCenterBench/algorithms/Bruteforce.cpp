@@ -812,6 +812,22 @@ vector<int> ReduceAndRecurse(Graph &Gi, int k, vector<int> & degs, vector<size_t
     }
     s.degs = degs;
     s.idxs = idxs;
+
+    //choose all isolated vertices
+
+    int i = s.idxs.size() - 1;
+    //while (true) {
+    //  if (degs[i] == 1) {
+    //    s.num_undominated_vertices--;
+    //    s.num_reds[i]++;
+    //    s.num_choice[i]++;
+    //    cout << "ratalo\n";
+    //    --i;
+    //  }
+    //  else {
+    //    break;
+    //  }
+    //}
     Gi.RecursiveOptimalDominatingSetWithDeletion(s);
     centers = s.min_dominating_set;
     for (int d : Gi.dominatingSet) {
