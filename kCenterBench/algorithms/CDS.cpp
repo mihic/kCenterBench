@@ -54,36 +54,41 @@ int Graph::centersCDS(int k, bool heu, bool plus) {
   int mid = high / 2;
   bestScore = MAX_INT;
   int newScore;
+  vector<int> VnewCenters;
   while (high - low > 1) {
     //mid = (high + low) / 2;
     mid = (high + low + 1) / 2;
     //cout << mid;
     //if (mid == high) return bestScore;
     if (plus) {
-      for (int i = 0; i < n; ++i) {
+      int best_plus_score = MAX_INT;
+      vector<int> best_plus_centers;
+      for (int i = 0; i < n; ++i) {              
         set<int> newCenters;
         newCenters = CDS(k, Vedge_lengths[mid], i);
         vector<int> VnewCenters(newCenters.begin(), newCenters.end());
         newScore = evalKCenter(VnewCenters);
-        if (newScore < bestScore) {
-          bestScore = newScore;
-          bestCenters = VnewCenters;
+        if (newScore < best_plus_score) {
+          best_plus_score = newScore;
+          best_plus_centers = VnewCenters;
         }
       }
+      newScore = best_plus_score;
+      VnewCenters = best_plus_centers;
     }
     else {
       set<int> newCenters;
       newCenters = CDS(k, Vedge_lengths[mid], -1);
-      vector<int> VnewCenters(newCenters.begin(), newCenters.end());
+      VnewCenters=vector<int>(newCenters.begin(), newCenters.end());
       newScore = evalKCenter(VnewCenters);
-      if (newScore < bestScore) {
-        bestScore = newScore;
-        bestCenters = VnewCenters;
-      }
+    }
+    if (newScore < bestScore) {
+      bestScore = newScore;
+      bestCenters = VnewCenters;
     }
 
     if (heu) { //heuristic search
-      if (bestScore <= Vedge_lengths[mid]) {
+      if (newScore <= Vedge_lengths[mid]) {
         high = mid;
       }
       else {
@@ -91,7 +96,7 @@ int Graph::centersCDS(int k, bool heu, bool plus) {
       }
     }
     else { // 3-aprox search
-      if (bestScore <= Vedge_lengths[mid]) {
+      if (newScore <= Vedge_lengths[mid]) {
         high = mid;
       }
       else {
@@ -130,7 +135,6 @@ set<int> Graph::CDS(int numCenters, int radius, int init) {
       }
     }
   }
-  set<int> coveredVertices;
   vector<int> scores(n);
   for (int i = 0; i < n; ++i) {
     int degree = 0;
@@ -198,16 +202,16 @@ set<int> Graph::CDS(int numCenters, int radius, int init) {
       if (Gi.adjMatrix[best_vertex][v] != -1) { // v = neighbours of best_vertex
         if (dominated.find(v) == dominated.end()) { // that are not already dominated
           for (int u = 0; u < n; u++) {
-            if (Gi.adjMatrix[v][u] != -1) { // v2 neighbours of v
+            if (Gi.adjMatrix[v][u] != -1 && u!=v) { // u neighbours of v
               scores[u]--;
             }
-            scores[v]++; // above counts itself as neighbour
+            //scores[v]++; // above counts itself as neighbour
           }
           dominated.emplace(v);
         }
       }
     }
-    centers.emplace(best_vertex);
+    centers.emplace(best_vertex);    
   }
   return centers;
 }
