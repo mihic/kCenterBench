@@ -310,14 +310,18 @@ int Graph::centersRecursiveOptimalDominatingSet(int k) {
 
 
 void Graph::RecursiveOptimalDominatingSet(RecursiveState &s) {
-
-  if (s.dominating_set.size() > s.k) {
+  if (s.min_dominating_set.size() <= s.k) {
     return;
   }
+
   if (s.num_undominated_vertices == 0) {
     if (s.dominating_set.size() < s.min_dominating_set.size()) {
       s.min_dominating_set = s.dominating_set;
     }
+    return;
+  }
+
+  if (s.dominating_set.size() >= s.k) {
     return;
   }
 

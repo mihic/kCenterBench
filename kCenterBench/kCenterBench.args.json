@@ -79,12 +79,8 @@
       "Command": "-m CDSP"
     },
     {
-      "Id": "ea0284db-f7ae-42f7-97b0-2dfcea661ff5",
-      "Command": ""
-    },
-    {
       "Id": "541f85d0-4de0-41cd-a6fc-44768494fe72",
-      "Command": "-c 80"
+      "Command": "-c 5"
     }
   ]
 }
