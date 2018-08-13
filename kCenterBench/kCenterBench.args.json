@@ -28,7 +28,7 @@
     },
     {
       "Id": "aaec6d43-e4bd-48a4-a364-3fb412209b44",
-      "Command": "-i samples/breaking3.pmed"
+      "Command": "-i samples/breaking4.pmed"
     },
     {
       "Id": "eb4da51e-2490-4e7f-81f0-5eee46e59569",
@@ -73,6 +73,10 @@
     {
       "Id": "878e2173-0bb2-4c9a-bcde-885c3b47b364",
       "Command": "-m hochbaumshmoysbin"
+    },
+    {
+      "Id": "6d3c2e63-9c3e-45a6-b270-fc4004d9db4d",
+      "Command": "-m hochbaumshmoys"
     },
     {
       "Id": "51859b3c-8341-4102-b2b5-211cbe95b0e6",

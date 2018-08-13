@@ -106,7 +106,7 @@ set<int> Graph::GreedyMaximalIndependentSet() {
   vector<bool> covered(n, false);
   set<int> MIS;
   for (int i = 0; i < n; ++i) {
-    for (int j = 0; j < n; ++j) {
+    for (int j = i+1; j < n; ++j) {
       if (adjMatrix[i][j] != -1) {
         degs[i]++;
       }
