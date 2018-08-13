@@ -287,7 +287,7 @@ int Graph::centersRecursiveOptimalDominatingSet(int k) {
         s.delta = s.num_choice[i];
       }
     }
-    s.k = MAX_INT;
+    s.k = k;
     Gi.RecursiveOptimalDominatingSet(s);
     vector<int> centers = s.min_dominating_set;
     if (debug) {

@@ -28,7 +28,7 @@
     },
     {
       "Id": "aaec6d43-e4bd-48a4-a364-3fb412209b44",
-      "Command": "-i samples/breaking2.pmed"
+      "Command": "-i samples/breaking3.pmed"
     },
     {
       "Id": "eb4da51e-2490-4e7f-81f0-5eee46e59569",
@@ -49,6 +49,10 @@
     {
       "Id": "bdd7b709-44fb-4fea-bce9-89622723e92e",
       "Command": "-m score"
+    },
+    {
+      "Id": "7b5333f6-30c5-48a8-a642-02e47a67de0e",
+      "Command": "-m bfbrec"
     },
     {
       "Id": "67fd352e-2447-4864-bd43-bdefad9790c7",
@@ -80,7 +84,7 @@
     },
     {
       "Id": "541f85d0-4de0-41cd-a6fc-44768494fe72",
-      "Command": "-c 5"
+      "Command": "-c 90"
     }
   ]
 }
