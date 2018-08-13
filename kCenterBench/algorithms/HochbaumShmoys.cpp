@@ -135,7 +135,7 @@ int Graph::centersBottleneckHeuristicsBin(int k) {
       a = c;
     }
   }
-  int m = VedgeLengths[c];
+  int m = VedgeLengths[b];
   Graph Gi(n);
   for (int i = 0; i < n; ++i) {
     for (int j = 0; j < n; ++j) {
