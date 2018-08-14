@@ -21,6 +21,9 @@ int Graph::centersHochbaumShmoys(int k) {
     Gi.Sqaure();
     //set<int> centers = Gi.RadnomMaximalIndependentSet();
     set<int> centers = Gi.GreedyMaximalIndependentSet();
+    if (debug) {
+      cout << centers.size() << endl;
+    }
     if (centers.size() <= k) {
       vector<int> Vcenters(centers.begin(), centers.end());
       int score = evalKCenter(Vcenters);

@@ -68,7 +68,7 @@ void Graph::Sqaure() {
   vector<vector<int>>sqAdjMatrix = adjMatrix;
   for (int i = 0; i < n; ++i) {
     for (int j = 0; j < n; ++j) {
-      for (int k = i; k < j; ++k) {
+      for (int k = 0; k < n; ++k) {
         if (adjMatrix[i][k] != -1 && adjMatrix[k][j] != -1) {
           if (sqAdjMatrix[i][j] == -1) {
             sqAdjMatrix[i][j] = adjMatrix[i][k] + adjMatrix[k][j];
@@ -102,11 +102,11 @@ set<int> Graph::RadnomMaximalIndependentSet() {
 }
 
 set<int> Graph::GreedyMaximalIndependentSet() {
-  vector<int> degs(n);
+  vector<int> degs(n,0);
   vector<bool> covered(n, false);
   set<int> MIS;
   for (int i = 0; i < n; ++i) {
-    for (int j = i+1; j < n; ++j) {
+    for (int j = 0; j < n; ++j) {
       if (adjMatrix[i][j] != -1) {
         degs[i]++;
       }
@@ -132,7 +132,6 @@ set<int> Graph::GreedyMaximalIndependentSet() {
     for (int i = 0; i < n; ++i) {
       if (adjMatrix[maxDegIdx][i] != -1) {
         covered[i] = true;
-        degs[i]--;
       }
     }
   }
