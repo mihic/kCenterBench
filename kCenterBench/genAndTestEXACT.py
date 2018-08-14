@@ -64,61 +64,62 @@ def gen(parameter_list,timeout,f):
       return {'status': 'TIMEOUT'}
 
 def main():
-  timeout = 6000 #s
+  timeout = 60 #s
   #soft_timeout = 60 #ms
   seed = 42
   outbuff = ""
   genpath = "/home/miha/GraphGen/GraphGen/main"
   testpath = "/home/miha/kCenterBench/kCenterBench/main"
-  #all_algs = ["CDSn4","greedy","greedyplus","greedyrnd","gonzalezplus","gonzalezrnd",
+  # all_algs = ["CDSn4","greedy","greedyplus","greedyrnd","gonzalezplus","gonzalezrnd",
   #             "gonzalez1c","plesnikrnd","plesnikdeg","plesnikdeg+","bottleneck",
-  #            "hochbaumshmoys","hochbaumshmoysbin","score","CDSPh","CDSP","CDS","CDSh"]
+  #             "hochbaumshmoys","hochbaumshmoysbin","score","CDSPh","CDSP","CDS","CDSh"]
   #all_algs = ["plesnikdeg","plesnikrnd","gonzalezplus","greedy",
   #            "gonzalez1c","bottleneck","greedyrnd","gonzalezrnd",
   #            "hochbaumshmoysbin","score","CDS","CDSh"]
   
-  #all_algs = ["bf","bfbbrec","reducebin"]
-  all_algs = ["hochbaumshmoys", "hochbaumshmoysbin","bottleneck"]
-  #graph_types =["csrandom", "grid","scalefree"]
+  all_algs = ["bf","bfbbrec","reducebin"]
+  #all_algs = ["greedy", "gonzalez1c"]
+  graph_types =["csrandom", "grid","scalefree"]
   #graph_types =["scalefree"]
-  #all_densities = [1,0.7,0.5,0.3,0.1,0.01,0.001,0.0001]
-  all_densities = [1,0.3,0.0001]
+  all_densities = [1,0.7,0.5,0.3,0.1,0.01,0.001,0.0001]
 
   print("algorithm,graph_type,seed,n,k,density,score,execution_time")
 
   algs = all_algs
-  n = 90
-  seed = 57614
-  graph_type = "csrandom"
-  for k in {3,5,10,20}:
-    for density in all_densities:
-      f = tempfile.NamedTemporaryFile(mode='w',encoding='ascii')
-      #print(f"generating test {n}...")
-      result = gen([genpath,"-n",f"{n}","-f","pmed","-t",f"{graph_type}","-p",f"{density}","-s",f"{seed}","-k",f"{k}"],timeout*10,f)
-      if result['status'] == "OK":
-        pass
-        #print(f"running test {n}...")
-      elif result['status'] == "TIMEOUT": 
-        print(f"timeout on generation")
-        return
-      else:
-        print("ERROR in generation")
-        print(f"stdout:\n{result['stdout']}\nstderr:\n{result['stderr']}\n")
-        return
-      f.flush()
-      #TEST
-      result = test(testpath,f"{f.name}","reducebin",timeout*10)
-      exact = int(result['solution'])
-      for alg in algs:
-        result = test(testpath,f"{f.name}",alg,timeout)
-        if result['status'] == "OK":
-          print(f"{alg},{graph_type},{seed},{n},{k},{density},{float(result['solution'])/exact},{result['execution_time']}")
-        elif result['status'] == "TIMEOUT":
-          print(f"{alg},{graph_type},{seed},{n},{k},{density},-1,{timeout*1000}")
-          algs.remove(alg)
-        else:
-          print("ERROR")
-          return
+  n = 10
+  density = 1
+  graph_type = "grid"
+  k = n//2
+  while(len(algs)!=0):
+    seed = random.randint(0,100000)
+    f = tempfile.NamedTemporaryFile(mode='w',encoding='ascii')
+    #print(f"generating test {n}...")
+    result = gen([genpath,"-n",f"{n}","-f","pmed","-t",f"{graph_type}","-p",f"{density}","-s",f"{seed}","-k",f"{k}"],timeout*10,f)
+    if result['status'] == "OK":
+      pass
+      #print(f"running test {n}...")
+    elif result['status'] == "TIMEOUT": 
+      print(f"timeout on generation")
+      return
+    else:
+      print("ERROR in generation")
+      print(f"stdout:\n{result['stdout']}\nstderr:\n{result['stderr']}\n")
+      return
+    f.flush()
 
+
+    #TEST
+    for alg in list(algs):
+      result = test(testpath,f"{f.name}",alg,timeout)
+      if result['status'] == "OK":
+        print(f"{alg},{graph_type},{seed},{n},{k},{density},{result['solution']},{result['execution_time']}")
+      elif result['status'] == "TIMEOUT":
+        print(f"{alg},{graph_type},{seed},{n},{k},{density},-1,{timeout*1000}")
+        algs.remove(alg)
+      else:
+        print("ERROR")
+        return
+    n = n + 2
+    k = n//2
 if __name__ == '__main__':
   main()

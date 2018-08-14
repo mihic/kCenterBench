@@ -24,7 +24,7 @@ def test(prog_path,input_path,method,timeout):
       return {'status': 'TIMEOUT'}
       
 def main():
-  timeout = 5000
+  timeout = 6000000
 	# print("testing once")
 	# result = test("/home/miha/kCenterBench/kCenterBench/main","samples/pmed/pmed1.txt","greedy",5000)
 	# print(result)
@@ -33,14 +33,17 @@ def main():
 	# 	print(f"Solution: {result['solution']}, Time: {result['execution_time']} ms")
 	# else:
 	# 	print("neki je slo narobe")
-  for i in range(1,41):
-    result = test("/home/miha/kCenterBench/kCenterBench/main",f"samples/pmed/pmed{i}.txt","CDSh",timeout)
-    if result['status'] == "OK":
-      print(f"pmed{i:2}: {result['solution']:4} {result['execution_time']:5} ms")
-    elif result['status'] == "TIMEOUT":
-      print(f"timeout({timeout}s)")
-    else:
-     print("ERROR")
-     print(f"stdout:\n{result['stdout']}\nstderr:\n{result['stderr']}\n")
+ 
+  algs = ["CDS","CDSP","CDSh","CDSPh","hochbaumshmoys","hochbaumshmoysbin","bottleneck"]
+  for alg in algs:
+    for i in range(1,41):
+      result = test("/home/miha/kCenterBench/kCenterBench/main",f"samples/pmed/pmed{i}.txt","score",timeout)
+      if result['status'] == "OK":
+        print(f"{alg},{i},{result['solution']},{result['execution_time']}")
+      elif result['status'] == "TIMEOUT":
+        print(f"timeout({timeout}s)")
+      else:
+       print("ERROR")
+       print(f"stdout:\n{result['stdout']}\nstderr:\n{result['stderr']}\n")
 if __name__ == '__main__':
   main()
