@@ -2,7 +2,7 @@
 
 
 // n^4 3-aprox
-int Graph::centersCDSn4(int k) {
+int Graph::centersCDS(int k, bool plus) {
   calcShortestPath();
   set<int> edgeLengths;
   for (auto i : shortestPaths) {
@@ -11,10 +11,24 @@ int Graph::centersCDSn4(int k) {
     }
   }
   bestScore = MAX_INT;
-  for (int m : edgeLengths) {
-    for (int i = 0; i < n; ++i) {
+  if (plus) {
+    for (int m : edgeLengths) {
+      for (int i = 0; i < n; ++i) {
+        set<int> newCenters;
+        newCenters = CDS(k, m, i);
+        vector<int> VnewCenters(newCenters.begin(), newCenters.end());
+        int newScore = evalKCenter(VnewCenters);
+        if (newScore < bestScore) {
+          bestScore = newScore;
+          bestCenters = VnewCenters;
+        }
+      }
+    }
+  }
+  else {
+    for (int m : edgeLengths) {
       set<int> newCenters;
-      newCenters = CDS(k, m, i);
+      newCenters = CDS(k, m, -1);
       vector<int> VnewCenters(newCenters.begin(), newCenters.end());
       int newScore = evalKCenter(VnewCenters);
       if (newScore < bestScore) {
@@ -23,7 +37,6 @@ int Graph::centersCDSn4(int k) {
       }
     }
   }
-
 
 
 
@@ -38,7 +51,7 @@ int Graph::centersCDSn4(int k) {
 }
 
 // n^2 log n heuristic (bisection)
-int Graph::centersCDS(int k, bool heu, bool plus) {
+int Graph::centersCDSh(int k, bool plus) {
   calcShortestPath();
   set<int> edgeLengths;
   for (auto i : shortestPaths) {
@@ -50,20 +63,17 @@ int Graph::centersCDS(int k, bool heu, bool plus) {
   sort(Vedge_lengths.begin(), Vedge_lengths.end());
 
   int low = 0;
-  int high = edgeLengths.size()-1;
-  int mid = high / 2;
+  int high = edgeLengths.size() - 1;
+  int mid;
   bestScore = MAX_INT;
   int newScore;
   vector<int> VnewCenters;
   while (high - low > 1) {
-    //mid = (high + low) / 2;
     mid = (high + low + 1) / 2;
-    //cout << mid;
-    //if (mid == high) return bestScore;
     if (plus) {
       int best_plus_score = MAX_INT;
       vector<int> best_plus_centers;
-      for (int i = 0; i < n; ++i) {              
+      for (int i = 0; i < n; ++i) {
         set<int> newCenters;
         newCenters = CDS(k, Vedge_lengths[mid], i);
         vector<int> VnewCenters(newCenters.begin(), newCenters.end());
@@ -79,38 +89,19 @@ int Graph::centersCDS(int k, bool heu, bool plus) {
     else {
       set<int> newCenters;
       newCenters = CDS(k, Vedge_lengths[mid], -1);
-      VnewCenters=vector<int>(newCenters.begin(), newCenters.end());
+      VnewCenters = vector<int>(newCenters.begin(), newCenters.end());
       newScore = evalKCenter(VnewCenters);
     }
     if (newScore < bestScore) {
       bestScore = newScore;
       bestCenters = VnewCenters;
     }
-
-    if (heu) { //heuristic search
-      if (newScore <= Vedge_lengths[mid]) {
-        high = mid;
-      }
-      else {
-        low = mid;
-      }
+    if (newScore <= Vedge_lengths[mid]) {
+      high = mid;
     }
-    else { // 3-aprox search
-      if (newScore <= Vedge_lengths[mid]) {
-        high = mid;
-      }
-      else {
-        if (newScore > 3 * Vedge_lengths[mid]) {
-          low = mid;
-        }
-        else {
-          high = mid;
-        }
-      }
+    else {
+      low = mid;
     }
-
-
-    mid = (low + high) / 2;
   }
   if (debug) {
     cout << "Score = " << bestScore << " with centers(" << bestCenters.size() << "):" << endl;
@@ -202,7 +193,7 @@ set<int> Graph::CDS(int numCenters, int radius, int init) {
       if (Gi.adjMatrix[best_vertex][v] != -1) { // v = neighbours of best_vertex
         if (dominated.find(v) == dominated.end()) { // that are not already dominated
           for (int u = 0; u < n; u++) {
-            if (Gi.adjMatrix[v][u] != -1 && u!=v) { // u neighbours of v
+            if (Gi.adjMatrix[v][u] != -1 && u != v) { // u neighbours of v
               scores[u]--;
             }
             //scores[v]++; // above counts itself as neighbour
@@ -211,7 +202,7 @@ set<int> Graph::CDS(int numCenters, int radius, int init) {
         }
       }
     }
-    centers.emplace(best_vertex);    
+    centers.emplace(best_vertex);
   }
   return centers;
 }

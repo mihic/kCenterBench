@@ -175,20 +175,17 @@ int main(int argc, const char * argv[])
     else if (method == "score") {
       score = g.centersBottleneckScore(k);
     }
-    else if (method == "CDSn4") {
-      score = g.centersCDSn4(k);
+    else if (method == "CDSP") {
+      score = g.centersCDS(k, true);
     }
     else if (method == "CDSh") {
-      score = g.centersCDS(k, true, false);
+      score = g.centersCDSh(k, false);
     }
     else if (method == "CDSPh") {
-      score = g.centersCDS(k, true, true);
-    }
-    else if (method == "CDSP") {
-      score = g.centersCDS(k, false, true);
+      score = g.centersCDSh(k, true);
     }
     else if (method == "CDS") {
-      score = g.centersCDS(k, false, false);
+      score = g.centersCDS(k, false);
     }
     else {
       cerr << "invalid method \"" << method << '"' << endl;

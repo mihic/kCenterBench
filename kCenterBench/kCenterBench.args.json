@@ -24,7 +24,7 @@
     },
     {
       "Id": "d672fc5a-b39e-46ab-80b2-a0053af65bd7",
-      "Command": "-i samples/pmed/pmed27.txt"
+      "Command": "-i samples/pmed/pmed3.txt"
     },
     {
       "Id": "aaec6d43-e4bd-48a4-a364-3fb412209b44",
@@ -84,6 +84,18 @@
     },
     {
       "Id": "835c27a3-796e-4412-9055-0924c687550a",
+      "Command": "-m CDS"
+    },
+    {
+      "Id": "7a6a9903-8998-41d1-a371-b61a9ad03ec8",
+      "Command": "-m CDSPh"
+    },
+    {
+      "Id": "70e75e13-230c-468a-8682-1c1116144e22",
+      "Command": "-m CDSh"
+    },
+    {
+      "Id": "f4952440-7e28-46a6-a6d3-6e5a78f2a6a4",
       "Command": "-m CDSP"
     },
     {

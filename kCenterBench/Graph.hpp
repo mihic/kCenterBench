@@ -120,8 +120,8 @@ public:
   int centersBottleneckHeuristicsBin(int k);
   int centersBottleneckScore(int k);
 
-  int centersCDSn4(int k);
-  int centersCDS(int k, bool heu, bool plus);
+  int centersCDS(int k, bool plus);
+  int centersCDSh(int k, bool plus);
   set<int> CDS(int k, int radius, int init);
 
 };
