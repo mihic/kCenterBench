@@ -2,7 +2,6 @@
 
 bool Graph::Range(int k, int B, bool deg) {
   vector<int> V;
-  makeVbyDeg();
   V = deg ? VbyDeg : oneToN;
   B = 2 * B;
   while (!V.empty()) {
